@@ -1,22 +1,39 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import {
+  BookOpen,
   Heart,
   HeartHandshake,
+  MessageCircleHeart,
   Minus,
+  PawPrint,
   Plus,
   ShoppingBag,
+  Sparkles,
+  Truck,
+  User,
   X,
 } from "lucide-react";
-import type { CartItem, Product } from "@/types/ecommerce";
+import { CATEGORY_NAV_ITEMS, SITE_BRAND } from "@/data/catalog";
+import type {
+  CartItem,
+  CategoryFilter,
+  DynamicActionType,
+  Product,
+} from "@/types/ecommerce";
+import DynamicImage from "@/components/common/DynamicImage";
 
 export interface DetailedCartItem extends CartItem {
   product: Product;
 }
 
 interface CartWishlistDrawersProps {
+  mobileMenuOpen: boolean;
+  onCloseMobileMenu: () => void;
+  activeCategory: CategoryFilter;
+  onAction: (action: DynamicActionType) => void;
+
   cartOpen: boolean;
   onCloseCart: () => void;
   cartItems: DetailedCartItem[];
@@ -36,9 +53,11 @@ interface CartWishlistDrawersProps {
   onToggleWishlist: (productId: string) => void;
 }
 
-const FREE_SHIPPING_THRESHOLD = 55;
-
 export default function CartWishlistDrawers({
+  mobileMenuOpen,
+  onCloseMobileMenu,
+  activeCategory,
+  onAction,
   cartOpen,
   onCloseCart,
   cartItems,
@@ -58,19 +77,145 @@ export default function CartWishlistDrawers({
 }: CartWishlistDrawersProps): React.JSX.Element {
   const [promoInput, setPromoInput] = useState("");
 
+  const threshold = SITE_BRAND.freeShippingThreshold;
   const discountAmount = promoApplied ? cartSubtotal * 0.2 : 0;
   const shippingCost =
-    cartSubtotal === 0 || cartSubtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 6.5;
+    cartSubtotal === 0 || cartSubtotal >= threshold ? 0 : 6.5;
   const total = Math.max(0, cartSubtotal - discountAmount + shippingCost);
-  const progress = Math.min(100, (cartSubtotal / FREE_SHIPPING_THRESHOLD) * 100);
+  const progress = Math.min(100, (cartSubtotal / threshold) * 100);
 
   const handlePromoSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onApplyPromo(promoInput);
   };
 
+  const triggerMobileAction = (action: DynamicActionType) => {
+    onCloseMobileMenu();
+    onAction(action);
+  };
+
   return (
     <>
+      {/* Mobile Navigation Drawer */}
+      <aside
+        aria-label="Mobile menu"
+        className={`fixed top-0 left-0 bottom-0 w-[min(320px,86vw)] bg-[#FBF8F3] z-50 shadow-2xl transition-transform duration-300 flex flex-col ${
+          mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="px-5 py-4 bg-white border-b border-emerald-950/10 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="w-8 h-8 rounded-xl bg-[#183A2E] text-amber-200 flex items-center justify-center">
+              <PawPrint className="w-4 h-4" />
+            </span>
+            <span className="font-display text-lg font-bold text-[#14261C]">
+              {SITE_BRAND.nameFirst}
+              <span className="text-[#d96b43]">{SITE_BRAND.nameSecond}</span>
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={onCloseMobileMenu}
+            aria-label="Close mobile menu"
+            className="w-9 h-9 rounded-full bg-[#F3EDE2] text-[#14261C] flex items-center justify-center cursor-pointer"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-5 space-y-6">
+          <div>
+            <span className="block text-[11px] font-bold uppercase tracking-widest text-stone-400 mb-2.5">
+              Shop by Need
+            </span>
+            <div className="flex flex-col gap-1.5">
+              {CATEGORY_NAV_ITEMS.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() =>
+                    triggerMobileAction({ type: "category", category: item.id })
+                  }
+                  className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-left transition cursor-pointer ${
+                    activeCategory === item.id
+                      ? "bg-[#183A2E] text-white"
+                      : "bg-white border border-emerald-950/8 text-[#14261C] hover:border-[#183A2E]"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <span className="block text-[11px] font-bold uppercase tracking-widest text-stone-400 mb-2.5">
+              Explore Studio
+            </span>
+            <div className="flex flex-col gap-1.5">
+              <button
+                type="button"
+                onClick={() =>
+                  triggerMobileAction({ type: "section", sectionId: "drops" })
+                }
+                className="px-4 py-2.5 rounded-xl bg-white border border-emerald-950/8 text-sm font-semibold text-[#d96b43] flex items-center gap-2.5 cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4" /> Weekly Member Drops
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  triggerMobileAction({ type: "section", sectionId: "journal" })
+                }
+                className="px-4 py-2.5 rounded-xl bg-white border border-emerald-950/8 text-sm font-semibold text-[#14261C] flex items-center gap-2.5 cursor-pointer"
+              >
+                <BookOpen className="w-4 h-4" /> The Care Journal
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  triggerMobileAction({ type: "section", sectionId: "grants" })
+                }
+                className="px-4 py-2.5 rounded-xl bg-white border border-emerald-950/8 text-sm font-semibold text-emerald-800 flex items-center gap-2.5 cursor-pointer"
+              >
+                <HeartHandshake className="w-4 h-4" /> 10% Rescue Grants
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  triggerMobileAction({ type: "modal", modal: "tracker" })
+                }
+                className="px-4 py-2.5 rounded-xl bg-white border border-emerald-950/8 text-sm font-semibold text-[#14261C] flex items-center gap-2.5 cursor-pointer"
+              >
+                <Truck className="w-4 h-4" /> Check Parcel Status
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  triggerMobileAction({ type: "modal", modal: "advisor" })
+                }
+                className="px-4 py-2.5 rounded-xl bg-white border border-emerald-950/8 text-sm font-semibold text-[#14261C] flex items-center gap-2.5 cursor-pointer"
+              >
+                <MessageCircleHeart className="w-4 h-4" /> Ask a Vet Advisor
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-5 bg-white border-t border-emerald-950/10">
+          <button
+            type="button"
+            onClick={() =>
+              triggerMobileAction({ type: "modal", modal: "login" })
+            }
+            className="w-full bg-[#183A2E] hover:bg-[#d96b43] text-white text-sm font-bold py-3 rounded-full inline-flex items-center justify-center gap-2 transition cursor-pointer"
+          >
+            <User className="w-4 h-4" />
+            Sign In · Haven Pass ({SITE_BRAND.promoCode})
+          </button>
+        </div>
+      </aside>
+
       {/* Shopping Bag Drawer */}
       <aside
         aria-label="Shopping bag"
@@ -78,9 +223,9 @@ export default function CartWishlistDrawers({
           cartOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="px-6 py-5 bg-white border-b border-emerald-950/10 flex items-center justify-between">
+        <div className="px-5 sm:px-6 py-4 sm:py-5 bg-white border-b border-emerald-950/10 flex items-center justify-between">
           <div>
-            <h3 className="font-display text-xl font-semibold text-[#14261C]">
+            <h3 className="font-display text-lg sm:text-xl font-semibold text-[#14261C]">
               Your PawHaven Bag ({cartCount})
             </h3>
             <p className="text-xs text-stone-400">
@@ -97,16 +242,13 @@ export default function CartWishlistDrawers({
           </button>
         </div>
 
-        <div className="px-6 py-3.5 bg-[#E6EFE9] text-[#14261C] text-xs font-semibold">
-          {cartSubtotal >= FREE_SHIPPING_THRESHOLD ? (
+        <div className="px-5 sm:px-6 py-3.5 bg-[#E6EFE9] text-[#14261C] text-xs font-semibold">
+          {cartSubtotal >= threshold ? (
             <span>🎉 Complimentary plastic-free shipping unlocked!</span>
           ) : (
             <span>
-              Add{" "}
-              <strong>
-                ${(FREE_SHIPPING_THRESHOLD - cartSubtotal).toFixed(2)}
-              </strong>{" "}
-              more for free eco delivery
+              Add <strong>${(threshold - cartSubtotal).toFixed(2)}</strong> more
+              for free eco delivery
             </span>
           )}
           <div className="h-1.5 bg-[#183A2E]/15 rounded-full mt-2 overflow-hidden">
@@ -117,7 +259,7 @@ export default function CartWishlistDrawers({
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-3.5">
+        <div className="flex-1 overflow-y-auto p-5 sm:p-6 flex flex-col gap-3.5">
           {cartItems.length === 0 ? (
             <div className="my-auto text-center py-10">
               <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-[#F3EDE2] text-[#183A2E] flex items-center justify-center">
@@ -140,7 +282,7 @@ export default function CartWishlistDrawers({
           ) : (
             <>
               <div className="bg-gradient-to-r from-[#183A2E] to-[#255544] text-[#FBF8F3] px-4 py-3 rounded-2xl text-xs flex items-center gap-3">
-                <HeartHandshake className="w-4 h-4 text-amber-300 flex-shrink-0" />
+                <HeartHandshake className="w-4 h-4 text-amber-300 shrink-0" />
                 <span>
                   This bag grants{" "}
                   <strong className="text-amber-300">
@@ -155,8 +297,8 @@ export default function CartWishlistDrawers({
                   key={`${product.id}-${variant}`}
                   className="bg-white border border-emerald-950/10 rounded-2xl p-3 flex gap-3.5"
                 >
-                  <div className="relative w-18 h-18 rounded-xl overflow-hidden bg-[#F3EDE2] flex-shrink-0">
-                    <Image
+                  <div className="relative w-18 h-18 rounded-xl overflow-hidden bg-[#F3EDE2] shrink-0">
+                    <DynamicImage
                       src={product.image}
                       alt={product.name}
                       fill
@@ -212,13 +354,13 @@ export default function CartWishlistDrawers({
         </div>
 
         {cartItems.length > 0 && (
-          <div className="p-6 bg-white border-t border-emerald-950/10 flex flex-col gap-3">
+          <div className="p-5 sm:p-6 bg-white border-t border-emerald-950/10 flex flex-col gap-3">
             <form onSubmit={handlePromoSubmit} className="flex gap-2">
               <input
                 type="text"
                 value={promoInput}
                 onChange={(e) => setPromoInput(e.target.value)}
-                placeholder="Member code (try HAVEN20)"
+                placeholder={`Member code (try ${SITE_BRAND.promoCode})`}
                 className="flex-1 h-10 px-4 rounded-full border border-emerald-950/15 text-xs focus:outline-none focus:border-[#183A2E]"
               />
               <button
@@ -236,7 +378,7 @@ export default function CartWishlistDrawers({
               </div>
               {promoApplied && (
                 <div className="flex justify-between text-emerald-800 font-semibold">
-                  <span>Haven Pass (HAVEN20)</span>
+                  <span>Haven Pass ({SITE_BRAND.promoCode})</span>
                   <span>-${discountAmount.toFixed(2)}</span>
                 </div>
               )}
@@ -270,8 +412,8 @@ export default function CartWishlistDrawers({
           wishlistOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="px-6 py-5 bg-white border-b border-emerald-950/10 flex items-center justify-between">
-          <h3 className="font-display text-xl font-semibold text-[#14261C]">
+        <div className="px-5 sm:px-6 py-4 sm:py-5 bg-white border-b border-emerald-950/10 flex items-center justify-between">
+          <h3 className="font-display text-lg sm:text-xl font-semibold text-[#14261C]">
             Saved Picks ({wishlistProducts.length})
           </h3>
           <button
@@ -284,7 +426,7 @@ export default function CartWishlistDrawers({
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-3.5">
+        <div className="flex-1 overflow-y-auto p-5 sm:p-6 flex flex-col gap-3.5">
           {wishlistProducts.length === 0 ? (
             <div className="my-auto text-center py-10">
               <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-rose-50 text-[#d96b43] flex items-center justify-center">
@@ -303,8 +445,8 @@ export default function CartWishlistDrawers({
                 key={product.id}
                 className="bg-white border border-emerald-950/10 rounded-2xl p-3 flex gap-3.5"
               >
-                <div className="relative w-18 h-18 rounded-xl overflow-hidden bg-[#F3EDE2] flex-shrink-0">
-                  <Image
+                <div className="relative w-18 h-18 rounded-xl overflow-hidden bg-[#F3EDE2] shrink-0">
+                  <DynamicImage
                     src={product.image}
                     alt={product.name}
                     fill

@@ -52,14 +52,17 @@ export default function CatalogSection({
   onQuickView,
 }: CatalogSectionProps): React.JSX.Element {
   return (
-    <section id="catalog" className="max-w-7xl mx-auto px-4 sm:px-8 py-16">
-      <div className="flex flex-wrap items-end justify-between gap-6 mb-8">
+    <section
+      id="catalog"
+      className="max-w-7xl mx-auto px-3 sm:px-8 py-14 sm:py-16"
+    >
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-7 sm:mb-8">
         <div>
           <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-[#d96b43] mb-2">
             <span className="w-5 h-0.5 bg-[#d96b43] rounded-full" />
             PawHaven Edit
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#14261C] tracking-tight">
+          <h2 className="font-display text-2xl sm:text-4xl font-semibold text-[#14261C] tracking-tight">
             Everyday Care &amp;{" "}
             <span className="italic font-medium text-[#d96b43]">
               Enrichment
@@ -67,13 +70,13 @@ export default function CatalogSection({
           </h2>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
           {COLLECTION_TABS.map((tab) => (
             <button
               key={tab.id}
               type="button"
               onClick={() => setCollectionTab(tab.id)}
-              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer shrink-0 ${
                 collectionTab === tab.id
                   ? "bg-[#183A2E] text-[#FBF8F3] shadow-sm"
                   : "bg-white border border-emerald-950/12 text-stone-600 hover:border-[#183A2E] hover:text-[#183A2E]"
@@ -85,9 +88,9 @@ export default function CatalogSection({
         </div>
       </div>
 
-      {/* Filter & Sort Toolbar */}
-      <div className="bg-white border border-emerald-950/10 rounded-2xl p-3.5 mb-8 flex flex-wrap items-center justify-between gap-3 shadow-xs">
-        <div className="flex flex-wrap items-center gap-1.5">
+      {/* Responsive Filter & Sort Toolbar */}
+      <div className="bg-white border border-emerald-950/10 rounded-2xl p-3 sm:p-3.5 mb-7 sm:mb-8 flex flex-col lg:flex-row lg:items-center justify-between gap-3 shadow-xs">
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
           {CATEGORY_NAV_ITEMS.map((item) => (
             <button
               key={item.id}
@@ -96,7 +99,7 @@ export default function CatalogSection({
                 setActiveCategory(item.id);
                 setActivePetType("all");
               }}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors cursor-pointer shrink-0 ${
                 activeCategory === item.id && activePetType === "all"
                   ? "bg-[#d96b43] text-white"
                   : "bg-[#FBF8F3] text-stone-600 hover:text-[#183A2E]"
@@ -109,14 +112,14 @@ export default function CatalogSection({
             <button
               type="button"
               onClick={() => setActivePetType("all")}
-              className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#183A2E] text-amber-300 cursor-pointer"
+              className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#183A2E] text-amber-300 whitespace-nowrap cursor-pointer shrink-0"
             >
               Pet: {activePetType} ×
             </button>
           )}
         </div>
 
-        <div className="flex items-center gap-3 ml-auto">
+        <div className="flex items-center justify-between lg:justify-end gap-3 pt-2 lg:pt-0 border-t lg:border-t-0 border-emerald-950/8">
           <span className="text-xs text-stone-500 font-medium">
             Showing <strong className="text-[#14261C]">{products.length}</strong>{" "}
             designs
@@ -136,7 +139,7 @@ export default function CatalogSection({
       </div>
 
       {products.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {products.map((product) => (
             <ProductCard
               key={product.id}
@@ -149,7 +152,7 @@ export default function CatalogSection({
           ))}
         </div>
       ) : (
-        <div className="bg-white border-2 border-dashed border-emerald-950/15 rounded-3xl py-16 px-6 text-center">
+        <div className="bg-white border-2 border-dashed border-emerald-950/15 rounded-3xl py-14 px-6 text-center">
           <h3 className="font-display text-2xl font-semibold text-[#14261C] mb-2">
             No items matched that combination
           </h3>

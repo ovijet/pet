@@ -9,5 +9,15 @@ body {
   font-family: var(--font-jakarta), -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: #fbf8f3;
   color: #14261c;
+  overflow-x: hidden;
 }
 
+/* Hide horizontal scrollbar on touch-scrollable nav strips */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

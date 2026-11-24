@@ -13,28 +13,26 @@ export default function Header({
   setSearchQuery,
   cartCount,
   wishlistCount,
-  onWishlistClick,
-  onCartClick,
-  onTrackOrderClick,
-  onLoginClick,
+  onAction,
   onSelectProduct,
+  onOpenMobileMenu,
 }: HeaderProps): React.JSX.Element {
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-emerald-950/8 shadow-[0_6px_24px_rgba(20,38,28,0.05)]">
-      <TopUtilityBar onTrackOrderClick={onTrackOrderClick} />
+      <TopUtilityBar onAction={onAction} />
       <Navbar
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         cartCount={cartCount}
         wishlistCount={wishlistCount}
-        onWishlistClick={onWishlistClick}
-        onCartClick={onCartClick}
-        onLoginClick={onLoginClick}
+        onAction={onAction}
         onSelectProduct={onSelectProduct}
+        onOpenMobileMenu={onOpenMobileMenu}
       />
       <CategoryNav
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
+        onAction={onAction}
       />
     </header>
   );

@@ -18,9 +18,59 @@ export type PetTypeId =
 export type CollectionFilter = "all" | "trending" | "fresh" | "drops";
 export type SortOption = "featured" | "price-asc" | "price-desc" | "rating";
 
+export type DynamicActionType =
+  | { type: "category"; category: CategoryFilter }
+  | { type: "pet"; petType: PetTypeId }
+  | { type: "section"; sectionId: string }
+  | { type: "modal"; modal: "tracker" | "login" | "cart" | "wishlist" | "advisor" };
+
 export interface NavItem {
   id: CategoryFilter;
   label: string;
+}
+
+export interface UtilityLinkItem {
+  id: string;
+  label: string;
+  icon: "heart" | "book" | "truck" | "map";
+  action: DynamicActionType;
+  highlight?: boolean;
+  hideOnMobile?: boolean;
+}
+
+export interface HeroSlide {
+  id: number;
+  badge: string;
+  titleTop: string;
+  titleAccent: string;
+  subtitle: string;
+  ctaLabel: string;
+  ctaAction: DynamicActionType;
+  secondaryCtaLabel: string;
+  secondaryAction: DynamicActionType;
+  image: string;
+  imageAlt: string;
+  highlightTag: string;
+}
+
+export interface PromoBannerItem {
+  id: string;
+  badge: string;
+  title: string;
+  subtitle: string;
+  ctaLabel: string;
+  action: DynamicActionType;
+  image: string;
+  imageAlt: string;
+  theme: "warm" | "forest";
+}
+
+export interface TrustPillarItem {
+  id: string;
+  icon: "leaf" | "shield" | "heart" | "chat";
+  title: string;
+  desc: string;
+  action: DynamicActionType;
 }
 
 export interface LifestyleCardItem {
@@ -52,26 +102,40 @@ export interface Product {
   description: string;
 }
 
-export interface HeroSlide {
-  id: number;
+export interface MissionBannerConfig {
   badge: string;
-  titleTop: string;
+  titleStart: string;
   titleAccent: string;
-  subtitle: string;
-  ctaLabel: string;
-  targetCategory: CategoryFilter;
+  description: string;
   image: string;
   imageAlt: string;
-  highlightTag: string;
+  primaryCtaLabel: string;
+  primaryAction: DynamicActionType;
+  stats: { value: string; label: string }[];
+}
+
+export interface NewsletterBannerConfig {
+  badge: string;
+  title: string;
+  description: string;
+  ctaLabel: string;
+  promoCode: string;
+  discountPercent: number;
+  perks: string[];
 }
 
 export interface JournalArticle {
   id: string;
   tag: string;
   readTime: string;
+  author: string;
   title: string;
   excerpt: string;
   image: string;
+  relatedCategory: NeedCategoryId;
+  relatedCtaLabel: string;
+  keyTakeaways: string[];
+  body: string[];
 }
 
 export interface CartItem {
@@ -101,6 +165,7 @@ export interface ReviewItem {
   petInfo: string;
   initials: string;
   productTag: string;
+  productId: string;
 }
 
 export interface HeaderProps {
@@ -110,11 +175,9 @@ export interface HeaderProps {
   setSearchQuery: (query: string) => void;
   cartCount: number;
   wishlistCount: number;
-  onWishlistClick: () => void;
-  onCartClick: () => void;
-  onTrackOrderClick: () => void;
-  onLoginClick: () => void;
+  onAction: (action: DynamicActionType) => void;
   onSelectProduct: (product: Product) => void;
+  onOpenMobileMenu: () => void;
 }
 
 export interface NavbarProps {
@@ -122,13 +185,13 @@ export interface NavbarProps {
   setSearchQuery: (query: string) => void;
   cartCount: number;
   wishlistCount: number;
-  onWishlistClick: () => void;
-  onCartClick: () => void;
-  onLoginClick: () => void;
+  onAction: (action: DynamicActionType) => void;
   onSelectProduct: (product: Product) => void;
+  onOpenMobileMenu: () => void;
 }
 
 export interface CategoryNavProps {
   activeCategory: CategoryFilter;
   setActiveCategory: (category: CategoryFilter) => void;
+  onAction: (action: DynamicActionType) => void;
 }

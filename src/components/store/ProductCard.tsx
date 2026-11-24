@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import Link from "next/link";
 import { Eye, Heart, ShoppingBag, Star } from "lucide-react";
 import type { Product } from "@/types/ecommerce";
+import DynamicImage from "@/components/common/DynamicImage";
 
 interface ProductCardProps {
   product: Product;
@@ -28,19 +29,25 @@ export default function ProductCard({
       : "bg-amber-400 text-[#14261C]";
 
   return (
-    <article className="group bg-white rounded-[26px] border border-emerald-950/10 overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-emerald-950/20">
+    <article className="group bg-white rounded-[24px] sm:rounded-[26px] border border-emerald-950/10 overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-emerald-950/20">
       <div className="relative aspect-[4/3.6] bg-[#F3EDE2] overflow-hidden">
-        <Image
-          src={product.image}
-          alt={product.name}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-        />
+        <Link
+          href={`/products/${product.id}`}
+          aria-label={`Open full details for ${product.name}`}
+          className="absolute inset-0 block"
+        >
+          <DynamicImage
+            src={product.image}
+            alt={product.name}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          />
+        </Link>
 
-        <div className="absolute top-3 left-3 z-10">
+        <div className="absolute top-3 left-3 z-10 pointer-events-none">
           <span
-            className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-xs ${badgeColor}`}
+            className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-xs ${badgeColor}`}
           >
             {product.badgeText}
           </span>
@@ -69,7 +76,7 @@ export default function ProductCard({
           <button
             type="button"
             onClick={() => onQuickView(product)}
-            aria-label={`Inspect ${product.name}`}
+            aria-label={`Quick preview ${product.name}`}
             className="w-9 h-9 rounded-full bg-white/95 text-[#183A2E] hover:bg-[#183A2E] hover:text-white flex items-center justify-center shadow-sm transition-all cursor-pointer"
           >
             <Eye className="w-4 h-4" />
@@ -88,12 +95,15 @@ export default function ProductCard({
         </div>
       </div>
 
-      <div className="p-5 flex flex-col flex-1">
+      <div className="p-4 sm:p-5 flex flex-col flex-1">
         <div className="flex items-center justify-between gap-2 mb-1.5">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[#d96b43]">
+          <Link
+            href={`/collections/${product.category}`}
+            className="text-[11px] font-bold uppercase tracking-wider text-[#d96b43] hover:underline truncate"
+          >
             {product.categoryLabel}
-          </span>
-          <span className="inline-flex items-center gap-1 text-xs font-semibold text-stone-600">
+          </Link>
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-stone-600 shrink-0">
             <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
             {product.rating.toFixed(1)}
             <span className="text-stone-400 font-normal">
@@ -102,21 +112,24 @@ export default function ProductCard({
           </span>
         </div>
 
-        <h3
-          onClick={() => onQuickView(product)}
-          className="font-display text-[1.08rem] font-semibold text-[#14261C] hover:text-[#d96b43] leading-snug mb-2.5 cursor-pointer transition-colors"
+        <Link
+          href={`/products/${product.id}`}
+          className="font-display text-base sm:text-[1.08rem] font-semibold text-[#14261C] hover:text-[#d96b43] leading-snug mb-2.5 transition-colors block"
         >
           {product.name}
-        </h3>
+        </Link>
 
-        <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-900 bg-[#E6EFE9] px-2.5 py-1 rounded-full w-fit mb-4">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-700" />
+        <Link
+          href={`/collections/${product.petType}`}
+          className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-900 bg-[#E6EFE9] hover:bg-[#183A2E] hover:text-white px-2.5 py-1 rounded-full w-fit mb-4 transition-colors"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-current" />
           {product.petLabel} · Grants {product.grantMeals} meals
-        </div>
+        </Link>
 
-        <div className="mt-auto pt-3 border-t border-dashed border-emerald-950/12 flex items-center justify-between gap-3">
-          <div className="flex items-baseline gap-2">
-            <span className="text-lg font-extrabold text-[#14261C]">
+        <div className="mt-auto pt-3 border-t border-dashed border-emerald-950/12 flex items-center justify-between gap-2">
+          <div className="flex items-baseline gap-1.5 sm:gap-2">
+            <span className="text-base sm:text-lg font-extrabold text-[#14261C]">
               ${product.price.toFixed(2)}
             </span>
             {product.oldPrice !== null && (
@@ -129,7 +142,7 @@ export default function ProductCard({
           <button
             type="button"
             onClick={() => onAddToCart(product, product.variants[0])}
-            className="px-3.5 py-1.5 rounded-full bg-[#F3EDE2] hover:bg-[#183A2E] text-[#183A2E] hover:text-[#FBF8F3] text-xs font-bold transition-colors cursor-pointer"
+            className="px-3.5 py-2 rounded-full bg-[#F3EDE2] hover:bg-[#183A2E] text-[#183A2E] hover:text-[#FBF8F3] text-xs font-bold transition-colors cursor-pointer"
           >
             + Bag
           </button>
