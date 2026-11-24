@@ -3,9 +3,10 @@
 import React, { useState } from "react";
 import {
   BookOpen,
+  Flame,
+  Headphones,
   Heart,
   HeartHandshake,
-  MessageCircleHeart,
   Minus,
   PawPrint,
   Plus,
@@ -78,9 +79,9 @@ export default function CartWishlistDrawers({
   const [promoInput, setPromoInput] = useState("");
 
   const threshold = SITE_BRAND.freeShippingThreshold;
-  const discountAmount = promoApplied ? cartSubtotal * 0.2 : 0;
+  const discountAmount = promoApplied ? cartSubtotal * 0.15 : 0;
   const shippingCost =
-    cartSubtotal === 0 || cartSubtotal >= threshold ? 0 : 6.5;
+    cartSubtotal === 0 || cartSubtotal >= threshold ? 0 : 5.95;
   const total = Math.max(0, cartSubtotal - discountAmount + shippingCost);
   const progress = Math.min(100, (cartSubtotal / threshold) * 100);
 
@@ -99,25 +100,25 @@ export default function CartWishlistDrawers({
       {/* Mobile Navigation Drawer */}
       <aside
         aria-label="Mobile menu"
-        className={`fixed top-0 left-0 bottom-0 w-[min(320px,86vw)] bg-[#FBF8F3] z-50 shadow-2xl transition-transform duration-300 flex flex-col ${
+        className={`fixed top-0 left-0 bottom-0 w-[min(320px,86vw)] bg-[#F6F8FC] z-50 shadow-2xl transition-transform duration-300 flex flex-col ${
           mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="px-5 py-4 bg-white border-b border-emerald-950/10 flex items-center justify-between">
+        <div className="px-5 py-4 bg-white border-b border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-8 h-8 rounded-xl bg-[#183A2E] text-amber-200 flex items-center justify-center">
+            <span className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-900 to-rose-500 text-white flex items-center justify-center">
               <PawPrint className="w-4 h-4" />
             </span>
-            <span className="font-display text-lg font-bold text-[#14261C]">
+            <span className="font-display text-lg font-extrabold text-slate-900">
               {SITE_BRAND.nameFirst}
-              <span className="text-[#d96b43]">{SITE_BRAND.nameSecond}</span>
+              <span className="text-rose-500">{SITE_BRAND.nameSecond}</span>
             </span>
           </div>
           <button
             type="button"
             onClick={onCloseMobileMenu}
             aria-label="Close mobile menu"
-            className="w-9 h-9 rounded-full bg-[#F3EDE2] text-[#14261C] flex items-center justify-center cursor-pointer"
+            className="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -125,8 +126,8 @@ export default function CartWishlistDrawers({
 
         <div className="flex-1 overflow-y-auto p-5 space-y-6">
           <div>
-            <span className="block text-[11px] font-bold uppercase tracking-widest text-stone-400 mb-2.5">
-              Shop by Need
+            <span className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2.5">
+              Shop by Category
             </span>
             <div className="flex flex-col gap-1.5">
               {CATEGORY_NAV_ITEMS.map((item) => (
@@ -138,8 +139,8 @@ export default function CartWishlistDrawers({
                   }
                   className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-left transition cursor-pointer ${
                     activeCategory === item.id
-                      ? "bg-[#183A2E] text-white"
-                      : "bg-white border border-emerald-950/8 text-[#14261C] hover:border-[#183A2E]"
+                      ? "bg-indigo-950 text-white"
+                      : "bg-white border border-slate-200 text-slate-800 hover:border-indigo-400"
                   }`}
                 >
                   {item.label}
@@ -149,111 +150,120 @@ export default function CartWishlistDrawers({
           </div>
 
           <div>
-            <span className="block text-[11px] font-bold uppercase tracking-widest text-stone-400 mb-2.5">
-              Explore Studio
+            <span className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2.5">
+              Quick Access
             </span>
             <div className="flex flex-col gap-1.5">
               <button
                 type="button"
                 onClick={() =>
-                  triggerMobileAction({ type: "section", sectionId: "drops" })
+                  triggerMobileAction({ type: "collection", slug: "sale" })
                 }
-                className="px-4 py-2.5 rounded-xl bg-white border border-emerald-950/8 text-sm font-semibold text-[#d96b43] flex items-center gap-2.5 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm font-semibold text-rose-600 flex items-center gap-2.5 cursor-pointer"
               >
-                <Sparkles className="w-4 h-4" /> Weekly Member Drops
+                <Flame className="w-4 h-4" /> On Sale Now
               </button>
               <button
                 type="button"
                 onClick={() =>
-                  triggerMobileAction({ type: "section", sectionId: "journal" })
+                  triggerMobileAction({ type: "collection", slug: "new" })
                 }
-                className="px-4 py-2.5 rounded-xl bg-white border border-emerald-950/8 text-sm font-semibold text-[#14261C] flex items-center gap-2.5 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm font-semibold text-indigo-700 flex items-center gap-2.5 cursor-pointer"
               >
-                <BookOpen className="w-4 h-4" /> The Care Journal
+                <Sparkles className="w-4 h-4" /> New Arrivals
               </button>
               <button
                 type="button"
                 onClick={() =>
-                  triggerMobileAction({ type: "section", sectionId: "grants" })
+                  triggerMobileAction({ type: "section", sectionId: "guides" })
                 }
-                className="px-4 py-2.5 rounded-xl bg-white border border-emerald-950/8 text-sm font-semibold text-emerald-800 flex items-center gap-2.5 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm font-semibold text-slate-800 flex items-center gap-2.5 cursor-pointer"
               >
-                <HeartHandshake className="w-4 h-4" /> 10% Rescue Grants
+                <BookOpen className="w-4 h-4" /> Pet Care Guides
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  triggerMobileAction({ type: "modal", modal: "charity" })
+                }
+                className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm font-semibold text-teal-700 flex items-center gap-2.5 cursor-pointer"
+              >
+                <HeartHandshake className="w-4 h-4" /> Animal Welfare Mission
               </button>
               <button
                 type="button"
                 onClick={() =>
                   triggerMobileAction({ type: "modal", modal: "tracker" })
                 }
-                className="px-4 py-2.5 rounded-xl bg-white border border-emerald-950/8 text-sm font-semibold text-[#14261C] flex items-center gap-2.5 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm font-semibold text-slate-800 flex items-center gap-2.5 cursor-pointer"
               >
-                <Truck className="w-4 h-4" /> Check Parcel Status
+                <Truck className="w-4 h-4" /> Track Order
               </button>
               <button
                 type="button"
                 onClick={() =>
                   triggerMobileAction({ type: "modal", modal: "advisor" })
                 }
-                className="px-4 py-2.5 rounded-xl bg-white border border-emerald-950/8 text-sm font-semibold text-[#14261C] flex items-center gap-2.5 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm font-semibold text-slate-800 flex items-center gap-2.5 cursor-pointer"
               >
-                <MessageCircleHeart className="w-4 h-4" /> Ask a Vet Advisor
+                <Headphones className="w-4 h-4" /> 24/7 Pet Care Support
               </button>
             </div>
           </div>
         </div>
 
-        <div className="p-5 bg-white border-t border-emerald-950/10">
+        <div className="p-5 bg-white border-t border-slate-200">
           <button
             type="button"
             onClick={() =>
               triggerMobileAction({ type: "modal", modal: "login" })
             }
-            className="w-full bg-[#183A2E] hover:bg-[#d96b43] text-white text-sm font-bold py-3 rounded-full inline-flex items-center justify-center gap-2 transition cursor-pointer"
+            className="w-full bg-indigo-950 hover:bg-rose-500 text-white text-sm font-bold py-3 rounded-xl inline-flex items-center justify-center gap-2 transition cursor-pointer"
           >
             <User className="w-4 h-4" />
-            Sign In · Haven Pass ({SITE_BRAND.promoCode})
+            My Account ({SITE_BRAND.promoCode})
           </button>
         </div>
       </aside>
 
-      {/* Shopping Bag Drawer */}
+      {/* Shopping Cart Drawer */}
       <aside
-        aria-label="Shopping bag"
-        className={`fixed top-0 right-0 bottom-0 w-[min(440px,100vw)] bg-[#FBF8F3] z-50 shadow-2xl transition-transform duration-300 flex flex-col ${
+        aria-label="Shopping cart"
+        className={`fixed top-0 right-0 bottom-0 w-[min(440px,100vw)] bg-[#F6F8FC] z-50 shadow-2xl transition-transform duration-300 flex flex-col ${
           cartOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="px-5 sm:px-6 py-4 sm:py-5 bg-white border-b border-emerald-950/10 flex items-center justify-between">
+        <div className="px-5 sm:px-6 py-4 sm:py-5 bg-white border-b border-slate-200 flex items-center justify-between">
           <div>
-            <h3 className="font-display text-lg sm:text-xl font-semibold text-[#14261C]">
-              Your PawHaven Bag ({cartCount})
+            <h3 className="font-display text-lg sm:text-xl font-bold text-slate-900">
+              Your Cart ({cartCount})
             </h3>
-            <p className="text-xs text-stone-400">
-              Compostable parcel · 10% Rescue Grant
+            <p className="text-xs text-slate-400">
+              Fast delivery · Profits fund animal welfare
             </p>
           </div>
           <button
             type="button"
             onClick={onCloseCart}
-            aria-label="Close bag"
-            className="w-9 h-9 rounded-full bg-[#F3EDE2] hover:bg-[#183A2E] hover:text-white text-[#14261C] flex items-center justify-center transition-colors cursor-pointer"
+            aria-label="Close cart"
+            className="w-9 h-9 rounded-xl bg-slate-100 hover:bg-indigo-950 hover:text-white text-slate-700 flex items-center justify-center transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="px-5 sm:px-6 py-3.5 bg-[#E6EFE9] text-[#14261C] text-xs font-semibold">
+        <div className="px-5 sm:px-6 py-3.5 bg-teal-50 text-teal-900 text-xs font-semibold border-b border-teal-100">
           {cartSubtotal >= threshold ? (
-            <span>🎉 Complimentary plastic-free shipping unlocked!</span>
+            <span>🎉 You unlocked FREE fast delivery!</span>
           ) : (
             <span>
               Add <strong>${(threshold - cartSubtotal).toFixed(2)}</strong> more
-              for free eco delivery
+              for free delivery
             </span>
           )}
-          <div className="h-1.5 bg-[#183A2E]/15 rounded-full mt-2 overflow-hidden">
+          <div className="h-1.5 bg-teal-200 rounded-full mt-2 overflow-hidden">
             <div
-              className="h-full bg-[#183A2E] rounded-full transition-all duration-300"
+              className="h-full bg-teal-600 rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -262,42 +272,43 @@ export default function CartWishlistDrawers({
         <div className="flex-1 overflow-y-auto p-5 sm:p-6 flex flex-col gap-3.5">
           {cartItems.length === 0 ? (
             <div className="my-auto text-center py-10">
-              <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-[#F3EDE2] text-[#183A2E] flex items-center justify-center">
+              <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center">
                 <ShoppingBag className="w-6 h-6" />
               </div>
-              <h4 className="font-display text-xl font-semibold text-[#14261C] mb-1">
-                Your bag is currently empty
+              <h4 className="font-display text-xl font-bold text-slate-900 mb-1">
+                Your cart is empty
               </h4>
-              <p className="text-sm text-stone-500 mb-5">
-                Explore daily nutrition, play toys, habitats &amp; starter kits.
+              <p className="text-sm text-slate-500 mb-5">
+                Shop toys, mats, feeders, filters &amp; cages for all 6 pet
+                categories.
               </p>
               <button
                 type="button"
                 onClick={onCloseCart}
-                className="bg-[#183A2E] hover:bg-[#d96b43] text-white text-sm font-semibold px-6 py-2.5 rounded-full transition cursor-pointer"
+                className="bg-indigo-950 hover:bg-rose-500 text-white text-sm font-bold px-6 py-2.5 rounded-xl transition cursor-pointer"
               >
-                Browse Studio
+                Start Shopping
               </button>
             </div>
           ) : (
             <>
-              <div className="bg-gradient-to-r from-[#183A2E] to-[#255544] text-[#FBF8F3] px-4 py-3 rounded-2xl text-xs flex items-center gap-3">
-                <HeartHandshake className="w-4 h-4 text-amber-300 shrink-0" />
+              <div className="bg-gradient-to-r from-indigo-950 to-indigo-800 text-white px-4 py-3 rounded-2xl text-xs flex items-center gap-3">
+                <HeartHandshake className="w-4 h-4 text-teal-300 shrink-0" />
                 <span>
-                  This bag grants{" "}
-                  <strong className="text-amber-300">
-                    {cartMealsFunded} warm foster meals
+                  This order funds{" "}
+                  <strong className="text-teal-300">
+                    {cartMealsFunded} shelter animal meals
                   </strong>{" "}
-                  through our Rescue Fund.
+                  through EverythingPet.
                 </span>
               </div>
 
               {cartItems.map(({ product, variant, quantity }) => (
                 <div
                   key={`${product.id}-${variant}`}
-                  className="bg-white border border-emerald-950/10 rounded-2xl p-3 flex gap-3.5"
+                  className="bg-white border border-slate-200/80 rounded-2xl p-3 flex gap-3.5"
                 >
-                  <div className="relative w-18 h-18 rounded-xl overflow-hidden bg-[#F3EDE2] shrink-0">
+                  <div className="relative w-18 h-18 rounded-xl overflow-hidden bg-slate-100 shrink-0">
                     <DynamicImage
                       src={product.image}
                       alt={product.name}
@@ -307,17 +318,17 @@ export default function CartWishlistDrawers({
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-semibold text-[#14261C] truncate">
+                    <h4 className="text-sm font-bold text-slate-900 truncate">
                       {product.name}
                     </h4>
-                    <p className="text-xs text-stone-400 mb-2">{variant}</p>
+                    <p className="text-xs text-slate-400 mb-2">{variant}</p>
                     <div className="flex items-center justify-between gap-2">
-                      <div className="inline-flex items-center gap-2 bg-[#F3EDE2] rounded-full px-2 py-1">
+                      <div className="inline-flex items-center gap-2 bg-slate-100 rounded-xl px-2 py-1">
                         <button
                           type="button"
                           onClick={() => onUpdateQty(product.id, variant, -1)}
                           aria-label="Decrease quantity"
-                          className="w-5 h-5 rounded-full hover:bg-[#183A2E] hover:text-white flex items-center justify-center cursor-pointer"
+                          className="w-5 h-5 rounded-lg hover:bg-indigo-950 hover:text-white flex items-center justify-center cursor-pointer"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
@@ -328,19 +339,19 @@ export default function CartWishlistDrawers({
                           type="button"
                           onClick={() => onUpdateQty(product.id, variant, 1)}
                           aria-label="Increase quantity"
-                          className="w-5 h-5 rounded-full hover:bg-[#183A2E] hover:text-white flex items-center justify-center cursor-pointer"
+                          className="w-5 h-5 rounded-lg hover:bg-indigo-950 hover:text-white flex items-center justify-center cursor-pointer"
                         >
                           <Plus className="w-3 h-3" />
                         </button>
                       </div>
                       <div className="text-right">
-                        <strong className="block text-sm text-[#14261C]">
+                        <strong className="block text-sm text-slate-900">
                           ${(product.price * quantity).toFixed(2)}
                         </strong>
                         <button
                           type="button"
                           onClick={() => onRemoveItem(product.id, variant)}
-                          className="text-[11px] font-semibold text-[#d96b43] hover:underline cursor-pointer"
+                          className="text-[11px] font-semibold text-rose-500 hover:underline cursor-pointer"
                         >
                           Remove
                         </button>
@@ -354,41 +365,41 @@ export default function CartWishlistDrawers({
         </div>
 
         {cartItems.length > 0 && (
-          <div className="p-5 sm:p-6 bg-white border-t border-emerald-950/10 flex flex-col gap-3">
+          <div className="p-5 sm:p-6 bg-white border-t border-slate-200 flex flex-col gap-3">
             <form onSubmit={handlePromoSubmit} className="flex gap-2">
               <input
                 type="text"
                 value={promoInput}
                 onChange={(e) => setPromoInput(e.target.value)}
-                placeholder={`Member code (try ${SITE_BRAND.promoCode})`}
-                className="flex-1 h-10 px-4 rounded-full border border-emerald-950/15 text-xs focus:outline-none focus:border-[#183A2E]"
+                placeholder={`Promo code (try ${SITE_BRAND.promoCode})`}
+                className="flex-1 h-10 px-4 rounded-xl border border-slate-200 text-xs focus:outline-none focus:border-indigo-500"
               />
               <button
                 type="submit"
-                className="px-4 h-10 rounded-full bg-[#F3EDE2] hover:bg-[#183A2E] hover:text-white text-xs font-bold text-[#14261C] transition-colors cursor-pointer"
+                className="px-4 h-10 rounded-xl bg-slate-100 hover:bg-indigo-950 hover:text-white text-xs font-bold text-slate-800 transition-colors cursor-pointer"
               >
                 Apply
               </button>
             </form>
 
-            <div className="space-y-1.5 text-sm text-stone-600">
+            <div className="space-y-1.5 text-sm text-slate-600">
               <div className="flex justify-between">
                 <span>Subtotal</span>
                 <span>${cartSubtotal.toFixed(2)}</span>
               </div>
               {promoApplied && (
-                <div className="flex justify-between text-emerald-800 font-semibold">
-                  <span>Haven Pass ({SITE_BRAND.promoCode})</span>
+                <div className="flex justify-between text-teal-700 font-semibold">
+                  <span>Club Discount ({SITE_BRAND.promoCode})</span>
                   <span>-${discountAmount.toFixed(2)}</span>
                 </div>
               )}
               <div className="flex justify-between">
-                <span>Eco Parcel Shipping</span>
+                <span>Delivery</span>
                 <span>
                   {shippingCost === 0 ? "FREE" : `$${shippingCost.toFixed(2)}`}
                 </span>
               </div>
-              <div className="flex justify-between text-base font-bold text-[#14261C] pt-2 border-t border-emerald-950/10">
+              <div className="flex justify-between text-base font-extrabold text-slate-900 pt-2 border-t border-slate-100">
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>
               </div>
@@ -397,30 +408,30 @@ export default function CartWishlistDrawers({
             <button
               type="button"
               onClick={onCheckout}
-              className="w-full bg-[#d96b43] hover:bg-[#bc5530] text-white text-sm font-bold py-3.5 rounded-full shadow-lg shadow-[#d96b43]/25 transition cursor-pointer mt-1"
+              className="w-full bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold py-3.5 rounded-xl shadow-lg shadow-rose-500/25 transition cursor-pointer mt-1"
             >
-              Place Order · Grant {cartMealsFunded} Meals
+              Checkout · Fund {cartMealsFunded} Shelter Meals
             </button>
           </div>
         )}
       </aside>
 
-      {/* Saved List Drawer */}
+      {/* Wishlist Drawer */}
       <aside
-        aria-label="Saved items"
-        className={`fixed top-0 right-0 bottom-0 w-[min(420px,100vw)] bg-[#FBF8F3] z-50 shadow-2xl transition-transform duration-300 flex flex-col ${
+        aria-label="Wishlist"
+        className={`fixed top-0 right-0 bottom-0 w-[min(420px,100vw)] bg-[#F6F8FC] z-50 shadow-2xl transition-transform duration-300 flex flex-col ${
           wishlistOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="px-5 sm:px-6 py-4 sm:py-5 bg-white border-b border-emerald-950/10 flex items-center justify-between">
-          <h3 className="font-display text-lg sm:text-xl font-semibold text-[#14261C]">
-            Saved Picks ({wishlistProducts.length})
+        <div className="px-5 sm:px-6 py-4 sm:py-5 bg-white border-b border-slate-200 flex items-center justify-between">
+          <h3 className="font-display text-lg sm:text-xl font-bold text-slate-900">
+            Wishlist ({wishlistProducts.length})
           </h3>
           <button
             type="button"
             onClick={onCloseWishlist}
-            aria-label="Close saved picks"
-            className="w-9 h-9 rounded-full bg-[#F3EDE2] hover:bg-[#183A2E] hover:text-white text-[#14261C] flex items-center justify-center transition-colors cursor-pointer"
+            aria-label="Close wishlist"
+            className="w-9 h-9 rounded-xl bg-slate-100 hover:bg-indigo-950 hover:text-white text-slate-700 flex items-center justify-center transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -429,23 +440,23 @@ export default function CartWishlistDrawers({
         <div className="flex-1 overflow-y-auto p-5 sm:p-6 flex flex-col gap-3.5">
           {wishlistProducts.length === 0 ? (
             <div className="my-auto text-center py-10">
-              <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-rose-50 text-[#d96b43] flex items-center justify-center">
+              <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center">
                 <Heart className="w-6 h-6" />
               </div>
-              <h4 className="font-display text-xl font-semibold text-[#14261C] mb-1">
-                No picks saved yet
+              <h4 className="font-display text-xl font-bold text-slate-900 mb-1">
+                Your wishlist is empty
               </h4>
-              <p className="text-sm text-stone-500">
-                Tap the heart icon on any item to keep it handy for later.
+              <p className="text-sm text-slate-500">
+                Tap the heart icon on any item to save it here.
               </p>
             </div>
           ) : (
             wishlistProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white border border-emerald-950/10 rounded-2xl p-3 flex gap-3.5"
+                className="bg-white border border-slate-200/80 rounded-2xl p-3 flex gap-3.5"
               >
-                <div className="relative w-18 h-18 rounded-xl overflow-hidden bg-[#F3EDE2] shrink-0">
+                <div className="relative w-18 h-18 rounded-xl overflow-hidden bg-slate-100 shrink-0">
                   <DynamicImage
                     src={product.image}
                     alt={product.name}
@@ -455,24 +466,24 @@ export default function CartWishlistDrawers({
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-semibold text-[#14261C] truncate">
+                  <h4 className="text-sm font-bold text-slate-900 truncate">
                     {product.name}
                   </h4>
-                  <p className="text-xs font-bold text-[#d96b43] mt-0.5 mb-2">
+                  <p className="text-xs font-bold text-indigo-600 mt-0.5 mb-2">
                     ${product.price.toFixed(2)}
                   </p>
                   <div className="flex items-center gap-2.5">
                     <button
                       type="button"
                       onClick={() => onMoveToCart(product)}
-                      className="px-3.5 py-1 rounded-full bg-[#183A2E] hover:bg-[#d96b43] text-white text-xs font-semibold transition cursor-pointer"
+                      className="px-3.5 py-1.5 rounded-lg bg-indigo-950 hover:bg-rose-500 text-white text-xs font-bold transition cursor-pointer"
                     >
-                      Move to Bag
+                      Move to Cart
                     </button>
                     <button
                       type="button"
                       onClick={() => onToggleWishlist(product.id)}
-                      className="text-xs font-semibold text-stone-400 hover:text-[#d96b43] cursor-pointer"
+                      className="text-xs font-semibold text-slate-400 hover:text-rose-500 cursor-pointer"
                     >
                       Remove
                     </button>

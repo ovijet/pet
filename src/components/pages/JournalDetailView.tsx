@@ -7,7 +7,7 @@ import {
   ArrowRight,
   BookOpen,
   CheckCircle2,
-  MessageCircleHeart,
+  Headphones,
 } from "lucide-react";
 import type { JournalArticle, Product } from "@/types/ecommerce";
 import { useStore } from "@/context/StoreContext";
@@ -29,32 +29,30 @@ export default function JournalDetailView({
 
   return (
     <article className="max-w-5xl mx-auto px-3 sm:px-8 py-6 sm:py-10">
-      {/* Back Link */}
       <div className="flex items-center justify-between gap-4 mb-6">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-stone-600 hover:text-[#183A2E]"
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 hover:text-indigo-700"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to PawHaven Home
+          Back to EverythingPet Home
         </Link>
-        <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#d96b43]">
+        <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-teal-600">
           <BookOpen className="w-3.5 h-3.5" />
           {article.tag} · {article.readTime}
         </span>
       </div>
 
-      {/* Article Header & Hero Photo */}
       <header className="mb-8">
-        <h1 className="font-display text-3xl sm:text-5xl font-semibold text-[#14261C] leading-[1.08] mb-4">
+        <h1 className="font-display text-3xl sm:text-5xl font-extrabold text-slate-900 leading-[1.08] mb-4">
           {article.title}
         </h1>
-        <p className="text-sm sm:text-base text-stone-500 mb-6">
-          By <strong className="text-[#14261C]">{article.author}</strong> ·{" "}
+        <p className="text-sm sm:text-base text-slate-500 mb-6">
+          By <strong className="text-slate-900">{article.author}</strong> ·{" "}
           {article.readTime}
         </p>
 
-        <div className="relative w-full aspect-[16/9] rounded-[28px] overflow-hidden border-4 border-white shadow-lg bg-[#F3EDE2]">
+        <div className="relative w-full aspect-[16/9] rounded-[28px] overflow-hidden border-4 border-white shadow-lg bg-slate-100">
           <DynamicImage
             src={article.image}
             alt={article.title}
@@ -66,26 +64,25 @@ export default function JournalDetailView({
         </div>
       </header>
 
-      {/* Body + Vet Checklist */}
-      <div className="bg-white border border-emerald-950/10 rounded-[28px] p-6 sm:p-10 shadow-xs mb-12 space-y-6">
-        <p className="font-display text-lg sm:text-xl text-[#183A2E] leading-relaxed">
+      <div className="bg-white border border-slate-200/80 rounded-[28px] p-6 sm:p-10 shadow-xs mb-12 space-y-6">
+        <p className="font-display text-lg sm:text-xl font-bold text-indigo-950 leading-relaxed">
           {article.excerpt}
         </p>
 
-        <div className="space-y-4 text-sm sm:text-base text-stone-600 leading-relaxed">
+        <div className="space-y-4 text-sm sm:text-base text-slate-600 leading-relaxed">
           {article.body.map((paragraph, index) => (
             <p key={index}>{paragraph}</p>
           ))}
         </div>
 
-        <div className="bg-[#FBF8F3] border border-emerald-950/10 rounded-2xl p-5 sm:p-6">
-          <h2 className="font-display text-xl font-semibold text-[#14261C] mb-3.5">
-            Vet Checklist Highlights
+        <div className="bg-[#F6F8FC] border border-slate-200 rounded-2xl p-5 sm:p-6">
+          <h2 className="font-display text-xl font-bold text-slate-900 mb-3.5">
+            Key Pet Care Takeaways
           </h2>
-          <ul className="space-y-2.5 text-sm text-stone-700">
+          <ul className="space-y-2.5 text-sm text-slate-700">
             {article.keyTakeaways.map((tip, i) => (
               <li key={i} className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0 mt-1" />
+                <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-1" />
                 <span>{tip}</span>
               </li>
             ))}
@@ -94,8 +91,8 @@ export default function JournalDetailView({
 
         <div className="flex flex-wrap gap-3 pt-2">
           <Link
-            href={`/collections/${article.relatedCategory}`}
-            className="bg-[#183A2E] hover:bg-[#d96b43] text-white text-sm font-bold px-6 py-3 rounded-full inline-flex items-center gap-2 transition"
+            href={`/collections/${article.relatedSlug}`}
+            className="bg-indigo-950 hover:bg-rose-500 text-white text-sm font-bold px-6 py-3 rounded-xl inline-flex items-center gap-2 transition"
           >
             <span>{article.relatedCtaLabel}</span>
             <ArrowRight className="w-4 h-4" />
@@ -105,30 +102,29 @@ export default function JournalDetailView({
             onClick={() =>
               store.handleAction({ type: "modal", modal: "advisor" })
             }
-            className="px-5 py-3 rounded-full border border-emerald-950/15 text-sm font-semibold text-[#14261C] hover:bg-[#FBF8F3] inline-flex items-center gap-2 cursor-pointer"
+            className="px-5 py-3 rounded-xl border border-slate-200 text-sm font-semibold text-slate-800 hover:bg-slate-50 inline-flex items-center gap-2 cursor-pointer"
           >
-            <MessageCircleHeart className="w-4 h-4 text-[#d96b43]" />
-            Ask Our Vet Advisor
+            <Headphones className="w-4 h-4 text-rose-500" />
+            Ask 24/7 Support
           </button>
         </div>
       </div>
 
-      {/* Related Gear Mentioned in Guide */}
       <section className="mb-14">
         <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
           <div>
-            <span className="text-xs font-bold uppercase tracking-widest text-[#d96b43]">
-              Mentioned in This Guide
+            <span className="text-xs font-bold uppercase tracking-widest text-rose-500">
+              Featured Products
             </span>
-            <h2 className="font-display text-2xl sm:text-3xl font-semibold text-[#14261C] mt-1">
-              Recommended Essentials
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+              Shop Matching Supplies
             </h2>
           </div>
           <Link
-            href={`/collections/${article.relatedCategory}`}
-            className="text-xs sm:text-sm font-bold text-[#183A2E] hover:text-[#d96b43] underline underline-offset-4"
+            href={`/collections/${article.relatedSlug}`}
+            className="text-xs sm:text-sm font-bold text-indigo-700 hover:text-rose-500 underline underline-offset-4"
           >
-            Browse full collection →
+            View full category →
           </Link>
         </div>
 
@@ -146,19 +142,18 @@ export default function JournalDetailView({
         </div>
       </section>
 
-      {/* More Guides */}
-      <section className="border-t border-emerald-950/10 pt-10">
-        <h2 className="font-display text-2xl font-semibold text-[#14261C] mb-5">
-          Keep Reading The Care Journal
+      <section className="border-t border-slate-200 pt-10">
+        <h2 className="font-display text-2xl font-extrabold text-slate-900 mb-5">
+          More EverythingPet Guides
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {otherArticles.map((post) => (
             <Link
               key={post.id}
               href={`/journal/${post.id}`}
-              className="group bg-white rounded-2xl border border-emerald-950/10 p-4 flex gap-4 items-center hover:shadow-md transition"
+              className="group bg-white rounded-2xl border border-slate-200/80 p-4 flex gap-4 items-center hover:shadow-md transition"
             >
-              <div className="relative w-24 h-24 rounded-xl overflow-hidden bg-[#F3EDE2] shrink-0">
+              <div className="relative w-24 h-24 rounded-xl overflow-hidden bg-slate-100 shrink-0">
                 <DynamicImage
                   src={post.image}
                   alt={post.title}
@@ -168,10 +163,10 @@ export default function JournalDetailView({
                 />
               </div>
               <div className="min-w-0 flex-1">
-                <span className="text-[11px] font-bold uppercase text-[#d96b43]">
+                <span className="text-[11px] font-bold uppercase text-indigo-600">
                   {post.tag} · {post.readTime}
                 </span>
-                <h3 className="font-display text-base font-semibold text-[#14261C] group-hover:text-[#d96b43] leading-snug mt-1">
+                <h3 className="font-display text-base font-bold text-slate-900 group-hover:text-rose-500 leading-snug mt-1">
                   {post.title}
                 </h3>
               </div>
@@ -182,4 +177,3 @@ export default function JournalDetailView({
     </article>
   );
 }
-

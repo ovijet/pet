@@ -17,10 +17,8 @@ export default async function JournalArticlePage({
     notFound();
   }
 
-  const matched = PRODUCTS.filter(
-    (p) => p.category === article.relatedCategory
-  );
-  const filler = PRODUCTS.filter((p) => p.category !== article.relatedCategory);
+  const matched = PRODUCTS.filter((p) => p.species === article.relatedSlug);
+  const filler = PRODUCTS.filter((p) => p.species !== article.relatedSlug);
   const relatedProducts = [...matched, ...filler].slice(0, 3);
   const otherArticles = JOURNAL_ARTICLES.filter((a) => a.id !== article.id);
 
@@ -32,4 +30,3 @@ export default async function JournalArticlePage({
     />
   );
 }
-

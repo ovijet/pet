@@ -1,18 +1,17 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-display: var(--font-fraunces), Georgia, serif;
-  --font-sans: var(--font-jakarta), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: var(--font-outfit), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: var(--font-dmsans), -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
-  font-family: var(--font-jakarta), -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: #fbf8f3;
-  color: #14261c;
+  font-family: var(--font-dmsans), -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f6f8fc;
+  color: #0f172a;
   overflow-x: hidden;
 }
 
-/* Hide horizontal scrollbar on touch-scrollable nav strips */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

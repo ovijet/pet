@@ -8,7 +8,7 @@ import Footer from "@/components/common/Footer";
 import CartWishlistDrawers from "@/components/store/CartWishlistDrawers";
 import StoreModals from "@/components/store/StoreModals";
 import { useStore } from "@/context/StoreContext";
-import { PARTNER_SHELTERS, PRODUCTS, SITE_BRAND } from "@/data/catalog";
+import { PARTNER_CHARITIES, PRODUCTS, SITE_BRAND } from "@/data/catalog";
 
 export default function SiteShell({
   children,
@@ -33,12 +33,12 @@ export default function SiteShell({
     store.trackerOpen ||
     store.loginOpen ||
     store.advisorOpen ||
-    store.grantsModalOpen;
+    store.charityModalOpen;
 
-  const grantProduct = PRODUCTS.find((p) => p.id === "ph-16");
+  const charityProduct = PRODUCTS.find((p) => p.id === "ep-dog-04");
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FBF8F3] text-[#14261C]">
+    <div className="min-h-screen flex flex-col bg-[#F6F8FC] text-[#0F172A]">
       <Header
         activeCategory={store.activeCategory}
         setActiveCategory={(cat) => {
@@ -64,7 +64,7 @@ export default function SiteShell({
       {anyOverlayOpen && (
         <div
           onClick={store.closeAllOverlays}
-          className="fixed inset-0 bg-[#102118]/55 backdrop-blur-xs z-40"
+          className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-40"
           aria-hidden="true"
         />
       )}
@@ -119,87 +119,89 @@ export default function SiteShell({
         onCloseLogin={() => store.setLoginOpen(false)}
         onClubSignIn={(email) =>
           store.showToast(
-            `Signed in as ${email} · Haven Pass ${SITE_BRAND.promoCode} active!`
+            `Signed in as ${email} · Promo ${SITE_BRAND.promoCode} unlocked!`
           )
         }
         advisorOpen={store.advisorOpen}
         onCloseAdvisor={() => store.setAdvisorOpen(false)}
         onAdvisorSubmit={(petType) =>
           store.showToast(
-            `Received! Our ${petType} vet advisor will reply shortly.`
+            `Support ticket created! Our 24/7 ${petType} specialist will reply shortly.`
           )
         }
       />
 
-      {/* Dynamic Rescue Grants Transparency Modal */}
-      {store.grantsModalOpen && (
+      {/* EverythingPet Animal Welfare Charity Modal */}
+      {store.charityModalOpen && (
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="PawHaven Rescue Grant Report"
-          className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(620px,calc(100vw-24px))] max-h-[90dvh] overflow-y-auto bg-[#FBF8F3] rounded-[28px] sm:rounded-[32px] p-6 sm:p-8 shadow-2xl z-50"
+          aria-label="EverythingPet Animal Welfare Report"
+          className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(620px,calc(100vw-24px))] max-h-[90dvh] overflow-y-auto bg-white rounded-[28px] p-6 sm:p-8 shadow-2xl border border-indigo-950/10 z-50"
         >
           <div className="flex items-center justify-between mb-3">
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.14em] text-[#d96b43]">
+            <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.14em] text-teal-600">
               <HeartHandshake className="w-4 h-4" />
-              2026 Rescue Grant Ledger
+              EverythingPet Animal Welfare Report
             </span>
             <button
               type="button"
-              onClick={() => store.setGrantsModalOpen(false)}
-              aria-label="Close rescue ledger"
-              className="w-9 h-9 rounded-full bg-[#F3EDE2] hover:bg-[#183A2E] hover:text-white text-[#14261C] flex items-center justify-center cursor-pointer"
+              onClick={() => store.setCharityModalOpen(false)}
+              aria-label="Close animal welfare report"
+              className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-700 flex items-center justify-center cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
 
-          <h3 className="font-display text-2xl sm:text-3xl font-semibold text-[#14261C] mb-2">
-            Where your 10% Rescue Grant goes
+          <h3 className="font-display text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+            100% of surplus profits support animal charities
           </h3>
-          <p className="text-sm text-stone-600 mb-6">
-            Every PawHaven box directs 10% of order value straight into verified
-            micro-grants for neighborhood animal shelters and foster homes.
+          <p className="text-sm text-slate-600 mb-6">
+            EverythingPet covers baseline product and operating costs, then
+            funnels remaining profits directly into rescue food, veterinary
+            care, and shelter habitats.
           </p>
 
           <div className="space-y-3 mb-6">
-            {PARTNER_SHELTERS.map((sh) => (
+            {PARTNER_CHARITIES.map((ch) => (
               <div
-                key={sh.id}
-                className="bg-white border border-emerald-950/10 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3"
+                key={ch.id}
+                className="bg-[#F6F8FC] border border-indigo-950/8 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3"
               >
                 <div>
-                  <strong className="block text-sm text-[#14261C]">
-                    {sh.name}
+                  <strong className="block text-sm text-slate-900">
+                    {ch.name}
                   </strong>
-                  <span className="inline-flex items-center gap-1 text-xs text-stone-400">
-                    <MapPin className="w-3 h-3" /> {sh.city} · {sh.focus}
+                  <span className="inline-flex items-center gap-1 text-xs text-slate-500">
+                    <MapPin className="w-3 h-3 text-rose-500" /> {ch.city} ·{" "}
+                    {ch.focus}
                   </span>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-[#E6EFE9] text-[#183A2E] text-xs font-extrabold">
-                  {sh.granted} Granted
+                <span className="px-3 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200 text-xs font-extrabold">
+                  {ch.donated} Donated
                 </span>
               </div>
             ))}
           </div>
 
           <div className="flex flex-wrap gap-3">
-            {grantProduct && (
+            {charityProduct && (
               <Link
-                href={`/products/${grantProduct.id}`}
-                onClick={() => store.setGrantsModalOpen(false)}
-                className="bg-[#183A2E] hover:bg-[#d96b43] text-white text-sm font-bold px-5 py-3 rounded-full inline-flex items-center gap-2 transition"
+                href={`/products/${charityProduct.id}`}
+                onClick={() => store.setCharityModalOpen(false)}
+                className="bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold px-5 py-3 rounded-full inline-flex items-center gap-2 transition shadow-md shadow-rose-500/25"
               >
-                <span>View Grant Edition Kit</span>
+                <span>Shop Charity Edition</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             )}
             <Link
-              href="/collections/bundles"
-              onClick={() => store.setGrantsModalOpen(false)}
-              className="px-5 py-3 rounded-full border border-emerald-950/15 text-sm font-semibold text-[#14261C] hover:bg-white transition"
+              href="/collections/all"
+              onClick={() => store.setCharityModalOpen(false)}
+              className="px-5 py-3 rounded-full border border-slate-200 text-sm font-semibold text-slate-800 hover:bg-slate-50 transition"
             >
-              Browse Starter Kits
+              Browse Full Store
             </Link>
           </div>
         </div>
@@ -210,7 +212,7 @@ export default function SiteShell({
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Scroll back to top"
-          className="fixed bottom-5 right-4 sm:bottom-7 sm:right-7 z-30 w-11 h-11 rounded-full bg-[#183A2E] hover:bg-[#d96b43] text-white shadow-lg flex items-center justify-center transition-all hover:-translate-y-0.5 cursor-pointer"
+          className="fixed bottom-5 right-4 sm:bottom-7 sm:right-7 z-30 w-11 h-11 rounded-full bg-indigo-950 hover:bg-rose-500 text-white shadow-lg flex items-center justify-center transition-all hover:-translate-y-0.5 cursor-pointer"
         >
           <ArrowUp className="w-5 h-5" />
         </button>
@@ -222,8 +224,8 @@ export default function SiteShell({
           aria-live="polite"
           className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] pointer-events-none px-4 w-full max-w-md flex justify-center"
         >
-          <div className="bg-[#102118] text-[#FBF8F3] px-5 py-3 rounded-full text-xs sm:text-sm font-semibold shadow-xl flex items-center gap-2.5 border border-white/10">
-            <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
+          <div className="bg-slate-900 text-white px-5 py-3 rounded-full text-xs sm:text-sm font-semibold shadow-xl flex items-center gap-2.5 border border-indigo-500/30">
+            <span className="w-2 h-2 rounded-full bg-rose-400 shrink-0" />
             <span className="truncate">{store.toast}</span>
           </div>
         </div>
@@ -231,4 +233,3 @@ export default function SiteShell({
     </div>
   );
 }
-

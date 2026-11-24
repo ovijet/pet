@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Sparkles, BookOpen, HeartHandshake } from "lucide-react";
+import { Flame, Sparkles, HeartHandshake } from "lucide-react";
 import type { CategoryNavProps } from "@/types/ecommerce";
 import { CATEGORY_NAV_ITEMS, QUICK_NAV_LINKS } from "@/data/catalog";
 
@@ -12,7 +12,7 @@ export default function CategoryNav({
   onAction,
 }: CategoryNavProps): React.JSX.Element {
   return (
-    <div className="border-t border-emerald-950/5 bg-[#FBF8F3]/90 backdrop-blur-md">
+    <div className="border-t border-slate-200/80 bg-[#F6F8FC]/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-3 sm:px-8 py-2 flex items-center justify-between gap-4">
         <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar snap-x py-0.5">
           {CATEGORY_NAV_ITEMS.map((item) => {
@@ -22,10 +22,10 @@ export default function CategoryNav({
                 key={item.id}
                 href={`/collections/${item.id}`}
                 onClick={() => setActiveCategory(item.id)}
-                className={`snap-start px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all shrink-0 ${
+                className={`snap-start px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all shrink-0 ${
                   isActive
-                    ? "bg-[#183A2E] text-[#FBF8F3] shadow-sm"
-                    : "text-stone-600 hover:text-[#183A2E] hover:bg-[#EFEAE0]"
+                    ? "bg-indigo-950 text-white shadow-xs"
+                    : "text-slate-600 hover:text-indigo-950 hover:bg-indigo-100/70"
                 }`}
               >
                 {item.label}
@@ -36,12 +36,12 @@ export default function CategoryNav({
 
         <div className="hidden lg:flex items-center gap-5 shrink-0 text-xs font-bold">
           {QUICK_NAV_LINKS.map((link) =>
-            link.id === "q-grants" ? (
+            link.id === "q-mission" ? (
               <button
                 key={link.id}
                 type="button"
                 onClick={() =>
-                  onAction({ type: "section", sectionId: "grants" })
+                  onAction({ type: "modal", modal: "charity" })
                 }
                 className={`inline-flex items-center gap-1.5 transition-colors cursor-pointer ${link.colorClass}`}
               >
@@ -54,10 +54,10 @@ export default function CategoryNav({
                 href={link.href}
                 className={`inline-flex items-center gap-1.5 transition-colors ${link.colorClass}`}
               >
+                {link.icon === "flame" && <Flame className="w-3.5 h-3.5" />}
                 {link.icon === "sparkles" && (
                   <Sparkles className="w-3.5 h-3.5" />
                 )}
-                {link.icon === "book" && <BookOpen className="w-3.5 h-3.5" />}
                 <span>{link.label}</span>
               </Link>
             )

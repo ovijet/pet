@@ -1,77 +1,81 @@
 "use client";
 
 import React from "react";
-import { LIFESTYLE_CARDS } from "@/data/catalog";
-import type { PetTypeId } from "@/types/ecommerce";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { SPECIES_LIST } from "@/data/catalog";
+import type { CategoryFilter } from "@/types/ecommerce";
 import DynamicImage from "@/components/common/DynamicImage";
 
 interface SpeciesShowcaseProps {
-  activePetType: PetTypeId | "all";
-  onSelectPetType: (petType: PetTypeId) => void;
+  activeCategory: CategoryFilter;
 }
 
 export default function SpeciesShowcase({
-  activePetType,
-  onSelectPetType,
+  activeCategory,
 }: SpeciesShowcaseProps): React.JSX.Element {
   return (
     <section
-      id="lifestyles"
+      id="categories"
       className="max-w-7xl mx-auto px-3 sm:px-8 py-10 sm:py-12"
     >
       <div className="flex flex-wrap items-end justify-between gap-4 mb-7 sm:mb-9">
         <div>
-          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-[#d96b43] mb-2">
-            <span className="w-5 h-0.5 bg-[#d96b43] rounded-full" />
-            Pet Lifestyles
+          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-rose-500 mb-2">
+            <span className="w-5 h-0.5 bg-rose-500 rounded-full" />
+            Latest Categories
           </span>
-          <h2 className="font-display text-2xl sm:text-4xl font-semibold text-[#14261C] tracking-tight">
-            Curated around{" "}
-            <span className="italic font-medium text-[#d96b43]">
-              how they live
-            </span>
+          <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Shop by{" "}
+            <span className="text-indigo-600">Pet Category</span>
           </h2>
         </div>
-        <p className="text-xs sm:text-sm text-stone-500 max-w-md">
-          Pick a companion studio below to jump straight into tailored dining,
-          play, and habitat designs.
-        </p>
+        <Link
+          href="/collections/all"
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-indigo-700 hover:text-rose-500 transition"
+        >
+          View all categories <ArrowRight className="w-4 h-4" />
+        </Link>
       </div>
 
+      {/* Circular-Halo Modern Studio Tiles */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-5">
-        {LIFESTYLE_CARDS.map((card) => {
-          const isActive = activePetType === card.id;
+        {SPECIES_LIST.map((sp) => {
+          const isActive = activeCategory === sp.id;
           return (
-            <button
-              key={card.id}
-              type="button"
-              onClick={() => onSelectPetType(card.id)}
-              className={`group rounded-t-[110px] sm:rounded-t-[130px] rounded-b-[22px] sm:rounded-b-[24px] p-2.5 sm:p-3 pb-4 sm:pb-5 border text-center flex flex-col items-center transition-all duration-300 cursor-pointer ${
+            <Link
+              key={sp.id}
+              href={`/collections/${sp.id}`}
+              className={`group rounded-3xl p-4 border text-center flex flex-col items-center transition-all duration-300 ${
                 isActive
-                  ? "bg-[#183A2E] text-[#FBF8F3] border-[#183A2E] shadow-lg -translate-y-1.5"
-                  : "bg-white text-[#14261C] border-emerald-950/10 hover:border-[#183A2E] hover:-translate-y-1.5 hover:shadow-md"
+                  ? "bg-indigo-950 text-white border-indigo-950 shadow-lg -translate-y-1.5"
+                  : "bg-white text-slate-900 border-slate-200/80 hover:border-indigo-300 hover:-translate-y-1.5 hover:shadow-lg"
               }`}
             >
-              <div className="relative w-full aspect-[1/1.08] rounded-t-[100px] sm:rounded-t-[120px] rounded-b-[14px] sm:rounded-b-[16px] overflow-hidden bg-[#F3EDE2] mb-3">
-                <DynamicImage
-                  src={card.image}
-                  alt={card.name}
-                  fill
-                  sizes="(max-width: 640px) 46vw, (max-width: 1024px) 30vw, 17vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+              <div
+                className={`p-1 rounded-full bg-gradient-to-tr ${sp.accentRing} mb-3.5 shadow-sm group-hover:scale-105 transition-transform duration-300`}
+              >
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-[3px] border-white bg-slate-100">
+                  <DynamicImage
+                    src={sp.image}
+                    alt={sp.name}
+                    fill
+                    sizes="(max-width: 640px) 110px, 128px"
+                    className="object-cover"
+                  />
+                </div>
               </div>
-              <h3 className="font-display text-sm sm:text-lg font-semibold leading-tight">
-                {card.name}
+              <h3 className="font-display text-sm sm:text-base font-bold leading-tight">
+                {sp.name}
               </h3>
               <span
                 className={`text-[11px] sm:text-xs font-medium mt-1 ${
-                  isActive ? "text-emerald-200" : "text-stone-400"
+                  isActive ? "text-indigo-200" : "text-slate-400"
                 }`}
               >
-                {card.count}
+                {sp.count}
               </span>
-            </button>
+            </Link>
           );
         })}
       </div>

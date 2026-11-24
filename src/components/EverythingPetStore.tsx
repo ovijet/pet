@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import Hero from "@/components/common/Hero";
 import TrustStrip from "@/components/store/TrustStrip";
 import SpeciesShowcase from "@/components/store/SpeciesShowcase";
@@ -14,20 +13,17 @@ import { PRODUCTS } from "@/data/catalog";
 import type {
   CategoryFilter,
   CollectionFilter,
-  PetTypeId,
   SortOption,
 } from "@/types/ecommerce";
 
 export default function EverythingPetStore(): React.JSX.Element {
-  const router = useRouter();
   const store = useStore();
 
   const [localCategory, setLocalCategory] = useState<CategoryFilter>("all");
-  const [localPetType, setLocalPetType] = useState<PetTypeId | "all">("all");
   const [collectionTab, setCollectionTab] = useState<CollectionFilter>("all");
   const [sortBy, setSortBy] = useState<SortOption>("featured");
 
-  const memberDrops = useMemo(
+  const saleDeals = useMemo(
     () => PRODUCTS.filter((p) => p.oldPrice !== null).slice(0, 4),
     []
   );
@@ -35,18 +31,16 @@ export default function EverythingPetStore(): React.JSX.Element {
   const filteredProducts = useMemo(() => {
     const q = store.searchQuery.trim().toLowerCase();
     const list = PRODUCTS.filter((p) => {
-      const matchNeed =
-        localCategory === "all" || p.category === localCategory;
-      const matchPet = localPetType === "all" || p.petType === localPetType;
+      const matchSpecies =
+        localCategory === "all" || p.species === localCategory;
       const matchTab =
         collectionTab === "all" || p.collections.includes(collectionTab);
       const matchQuery =
         !q ||
         p.name.toLowerCase().includes(q) ||
-        p.categoryLabel.toLowerCase().includes(q) ||
-        p.petLabel.toLowerCase().includes(q) ||
+        p.speciesLabel.toLowerCase().includes(q) ||
         p.description.toLowerCase().includes(q);
-      return matchNeed && matchPet && matchTab && matchQuery;
+      return matchSpecies && matchTab && matchQuery;
     });
 
     if (sortBy === "price-asc") return [...list].sort((a, b) => a.price - b.price);
@@ -55,7 +49,7 @@ export default function EverythingPetStore(): React.JSX.Element {
     if (sortBy === "rating")
       return [...list].sort((a, b) => b.rating - a.rating);
     return list;
-  }, [localCategory, localPetType, collectionTab, store.searchQuery, sortBy]);
+  }, [localCategory, collectionTab, store.searchQuery, sortBy]);
 
   return (
     <>
@@ -63,13 +57,10 @@ export default function EverythingPetStore(): React.JSX.Element {
 
       <TrustStrip onAction={store.handleAction} />
 
-      <SpeciesShowcase
-        activePetType={localPetType}
-        onSelectPetType={(pet) => router.push(`/collections/${pet}`)}
-      />
+      <SpeciesShowcase activeCategory={localCategory} />
 
       <FlashDealsSection
-        deals={memberDrops}
+        deals={saleDeals}
         wishlist={store.wishlist}
         onAddToCart={store.addToCart}
         onToggleWishlist={store.toggleWishlist}
@@ -80,8 +71,6 @@ export default function EverythingPetStore(): React.JSX.Element {
         products={filteredProducts}
         activeCategory={localCategory}
         setActiveCategory={setLocalCategory}
-        activePetType={localPetType}
-        setActivePetType={setLocalPetType}
         collectionTab={collectionTab}
         setCollectionTab={setCollectionTab}
         sortBy={sortBy}
@@ -89,7 +78,6 @@ export default function EverythingPetStore(): React.JSX.Element {
         wishlist={store.wishlist}
         onResetFilters={() => {
           setLocalCategory("all");
-          setLocalPetType("all");
           setCollectionTab("all");
           store.setSearchQuery("");
         }}

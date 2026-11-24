@@ -17,18 +17,16 @@ export default async function ProductDetailPage({
     notFound();
   }
 
-  const sameGroup = PRODUCTS.filter(
-    (p) =>
-      p.id !== product.id &&
-      (p.petType === product.petType || p.category === product.category)
+  const sameSpecies = PRODUCTS.filter(
+    (p) => p.id !== product.id && p.species === product.species
   );
   const filler = PRODUCTS.filter(
-    (p) => p.id !== product.id && !sameGroup.some((s) => s.id === p.id)
+    (p) => p.id !== product.id && p.species !== product.species
   );
-  const relatedProducts = [...sameGroup, ...filler].slice(0, 4);
+  const relatedProducts = [...sameSpecies, ...filler].slice(0, 4);
 
   const relatedArticle =
-    JOURNAL_ARTICLES.find((a) => a.relatedCategory === product.category) ??
+    JOURNAL_ARTICLES.find((a) => a.relatedSlug === product.species) ??
     JOURNAL_ARTICLES[0];
 
   return (
@@ -39,4 +37,3 @@ export default async function ProductDetailPage({
     />
   );
 }
-

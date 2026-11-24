@@ -1,33 +1,32 @@
 import type { Metadata } from "next";
-import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
+import { DM_Sans, Outfit } from "next/font/google";
 import { StoreProvider } from "@/context/StoreContext";
 import SiteShell from "@/components/common/SiteShell";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+const dmSans = DM_Sans({
+  variable: "--font-dmsans",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "PawHaven — Modern Pet Care, Enrichment & Wellness Boutique",
+  title: "EverythingPet — Your Pet's World, All in One Place",
   description:
-    "Thoughtfully designed daily nutrition, enrichment toys, habitats, and wellness essentials for dogs, cats, birds, reptiles, aquatics, and small companions.",
+    "Purpose-driven online pet store for dogs, cats, reptiles, birds, fish & small pets. Covering operating costs while donating remaining profits to animal welfare.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${plusJakartaSans.variable} scroll-smooth antialiased`}
+      className={`${outfit.variable} ${dmSans.variable} scroll-smooth antialiased`}
     >
       <body className="min-h-screen">
         <StoreProvider>

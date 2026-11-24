@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
-import { CATEGORY_NAV_ITEMS } from "@/data/catalog";
+import { SPECIES_LIST } from "@/data/catalog";
 import type {
   CategoryFilter,
   CollectionFilter,
-  PetTypeId,
   Product,
   SortOption,
 } from "@/types/ecommerce";
@@ -15,8 +14,6 @@ interface CatalogSectionProps {
   products: Product[];
   activeCategory: CategoryFilter;
   setActiveCategory: (category: CategoryFilter) => void;
-  activePetType: PetTypeId | "all";
-  setActivePetType: (petType: PetTypeId | "all") => void;
   collectionTab: CollectionFilter;
   setCollectionTab: (tab: CollectionFilter) => void;
   sortBy: SortOption;
@@ -29,18 +26,16 @@ interface CatalogSectionProps {
 }
 
 const COLLECTION_TABS: { id: CollectionFilter; label: string }[] = [
-  { id: "all", label: "Everything" },
-  { id: "trending", label: "Most Loved" },
-  { id: "fresh", label: "Just Landed" },
-  { id: "drops", label: "Member Drops" },
+  { id: "all", label: "All Products" },
+  { id: "popular", label: "Popular Products" },
+  { id: "new", label: "New Arrivals" },
+  { id: "sale", label: "Exclusive Deals" },
 ];
 
 export default function CatalogSection({
   products,
   activeCategory,
   setActiveCategory,
-  activePetType,
-  setActivePetType,
   collectionTab,
   setCollectionTab,
   sortBy,
@@ -58,15 +53,13 @@ export default function CatalogSection({
     >
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-7 sm:mb-8">
         <div>
-          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-[#d96b43] mb-2">
-            <span className="w-5 h-0.5 bg-[#d96b43] rounded-full" />
-            PawHaven Edit
+          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-indigo-600 mb-2">
+            <span className="w-5 h-0.5 bg-indigo-600 rounded-full" />
+            EverythingPet Store
           </span>
-          <h2 className="font-display text-2xl sm:text-4xl font-semibold text-[#14261C] tracking-tight">
-            Everyday Care &amp;{" "}
-            <span className="italic font-medium text-[#d96b43]">
-              Enrichment
-            </span>
+          <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            New Arrivals &amp;{" "}
+            <span className="text-rose-500">Popular Picks</span>
           </h2>
         </div>
 
@@ -76,10 +69,10 @@ export default function CatalogSection({
               key={tab.id}
               type="button"
               onClick={() => setCollectionTab(tab.id)}
-              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer shrink-0 ${
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer shrink-0 ${
                 collectionTab === tab.id
-                  ? "bg-[#183A2E] text-[#FBF8F3] shadow-sm"
-                  : "bg-white border border-emerald-950/12 text-stone-600 hover:border-[#183A2E] hover:text-[#183A2E]"
+                  ? "bg-indigo-950 text-white shadow-sm"
+                  : "bg-white border border-slate-200 text-slate-600 hover:border-indigo-400 hover:text-indigo-900"
               }`}
             >
               {tab.label}
@@ -88,49 +81,48 @@ export default function CatalogSection({
         </div>
       </div>
 
-      {/* Responsive Filter & Sort Toolbar */}
-      <div className="bg-white border border-emerald-950/10 rounded-2xl p-3 sm:p-3.5 mb-7 sm:mb-8 flex flex-col lg:flex-row lg:items-center justify-between gap-3 shadow-xs">
+      {/* Filter & Sort Bar */}
+      <div className="bg-white border border-slate-200/80 rounded-2xl p-3 sm:p-3.5 mb-7 sm:mb-8 flex flex-col lg:flex-row lg:items-center justify-between gap-3 shadow-xs">
         <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
-          {CATEGORY_NAV_ITEMS.map((item) => (
+          <button
+            type="button"
+            onClick={() => setActiveCategory("all")}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-colors cursor-pointer shrink-0 ${
+              activeCategory === "all"
+                ? "bg-rose-500 text-white"
+                : "bg-slate-100 text-slate-600 hover:text-indigo-900"
+            }`}
+          >
+            All Pets
+          </button>
+          {SPECIES_LIST.map((sp) => (
             <button
-              key={item.id}
+              key={sp.id}
               type="button"
-              onClick={() => {
-                setActiveCategory(item.id);
-                setActivePetType("all");
-              }}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors cursor-pointer shrink-0 ${
-                activeCategory === item.id && activePetType === "all"
-                  ? "bg-[#d96b43] text-white"
-                  : "bg-[#FBF8F3] text-stone-600 hover:text-[#183A2E]"
+              onClick={() => setActiveCategory(sp.id)}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-colors cursor-pointer shrink-0 ${
+                activeCategory === sp.id
+                  ? "bg-rose-500 text-white"
+                  : "bg-slate-100 text-slate-600 hover:text-indigo-900"
               }`}
             >
-              {item.label}
+              {sp.name}
             </button>
           ))}
-          {activePetType !== "all" && (
-            <button
-              type="button"
-              onClick={() => setActivePetType("all")}
-              className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#183A2E] text-amber-300 whitespace-nowrap cursor-pointer shrink-0"
-            >
-              Pet: {activePetType} ×
-            </button>
-          )}
         </div>
 
-        <div className="flex items-center justify-between lg:justify-end gap-3 pt-2 lg:pt-0 border-t lg:border-t-0 border-emerald-950/8">
-          <span className="text-xs text-stone-500 font-medium">
-            Showing <strong className="text-[#14261C]">{products.length}</strong>{" "}
-            designs
+        <div className="flex items-center justify-between lg:justify-end gap-3 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100">
+          <span className="text-xs text-slate-500 font-medium">
+            Showing <strong className="text-slate-900">{products.length}</strong>{" "}
+            items
           </span>
           <select
             aria-label="Sort products"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as SortOption)}
-            className="h-9 px-3.5 rounded-full bg-[#FBF8F3] border border-emerald-950/14 text-xs font-bold text-[#14261C] cursor-pointer focus:outline-none focus:border-[#183A2E]"
+            className="h-9 px-3.5 rounded-xl bg-slate-100 border border-slate-200 text-xs font-bold text-slate-800 cursor-pointer focus:outline-none focus:border-indigo-500"
           >
-            <option value="featured">Sort: Curated</option>
+            <option value="featured">Sort: Featured</option>
             <option value="price-asc">Price: Low to High</option>
             <option value="price-desc">Price: High to Low</option>
             <option value="rating">Top Rated</option>
@@ -152,17 +144,18 @@ export default function CatalogSection({
           ))}
         </div>
       ) : (
-        <div className="bg-white border-2 border-dashed border-emerald-950/15 rounded-3xl py-14 px-6 text-center">
-          <h3 className="font-display text-2xl font-semibold text-[#14261C] mb-2">
-            No items matched that combination
+        <div className="bg-white border-2 border-dashed border-slate-200 rounded-3xl py-14 px-6 text-center">
+          <h3 className="font-display text-2xl font-bold text-slate-900 mb-2">
+            No pet products matched your filters
           </h3>
-          <p className="text-sm text-stone-500 mb-6">
-            Clear your search or reset category filters to browse the full studio.
+          <p className="text-sm text-slate-500 mb-6">
+            Clear your search or reset filters to browse all EverythingPet
+            categories.
           </p>
           <button
             type="button"
             onClick={onResetFilters}
-            className="bg-[#183A2E] hover:bg-[#d96b43] text-white text-sm font-semibold px-6 py-3 rounded-full transition-colors cursor-pointer"
+            className="bg-indigo-950 hover:bg-rose-500 text-white text-sm font-bold px-6 py-3 rounded-xl transition-colors cursor-pointer"
           >
             Reset Filters
           </button>

@@ -16,28 +16,31 @@ export default function Footer({
   onAction,
 }: FooterProps): React.JSX.Element {
   return (
-    <footer id="footer" className="bg-[#102118] text-emerald-100/80 pt-14 sm:pt-16 pb-8">
+    <footer
+      id="footer"
+      className="bg-[#0F172A] text-slate-300 pt-14 sm:pt-16 pb-8 border-t border-indigo-950"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pb-12 border-b border-white/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pb-12 border-b border-slate-800">
           <div>
             <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
-              <span className="w-10 h-10 rounded-2xl rounded-tr-sm bg-[#d96b43] text-white flex items-center justify-center">
+              <span className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-rose-500 text-white flex items-center justify-center">
                 <PawPrint className="w-5 h-5" />
               </span>
-              <span className="font-display text-xl font-bold text-[#FBF8F3]">
+              <span className="font-display text-xl font-extrabold text-white">
                 {SITE_BRAND.nameFirst}
-                <span className="text-amber-300">{SITE_BRAND.nameSecond}</span>
+                <span className="text-rose-400">{SITE_BRAND.nameSecond}</span>
               </span>
             </Link>
-            <p className="text-sm leading-relaxed text-emerald-100/70 max-w-xs">
-              Modern Pet Wellness Studio. Vet-reviewed nutrition, play, and
-              habitat gear—with 10% of every order funding local rescue grants.
+            <p className="text-sm leading-relaxed text-slate-400 max-w-xs">
+              {SITE_BRAND.tagline}. A purpose-driven online pet store covering
+              operating costs and donating remaining profits to animal welfare.
             </p>
           </div>
 
           <div>
-            <h4 className="font-display text-base font-semibold text-white mb-4">
-              Shop by Need
+            <h4 className="font-display text-base font-bold text-white mb-4">
+              Pet Categories
             </h4>
             <ul className="space-y-2.5 text-sm">
               {CATEGORY_NAV_ITEMS.filter((i) => i.id !== "all").map((item) => (
@@ -47,7 +50,7 @@ export default function Footer({
                     onClick={() =>
                       onAction({ type: "category", category: item.id })
                     }
-                    className="hover:text-amber-300 transition-colors cursor-pointer"
+                    className="hover:text-rose-400 transition-colors cursor-pointer"
                   >
                     {item.label}
                   </button>
@@ -57,82 +60,78 @@ export default function Footer({
           </div>
 
           <div>
-            <h4 className="font-display text-base font-semibold text-white mb-4">
-              PawHaven World
+            <h4 className="font-display text-base font-bold text-white mb-4">
+              Useful Links
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <button
                   type="button"
                   onClick={() =>
-                    onAction({ type: "section", sectionId: "drops" })
+                    onAction({ type: "collection", slug: "sale" })
                   }
-                  className="hover:text-amber-300 transition cursor-pointer"
+                  className="hover:text-rose-400 transition cursor-pointer"
                 >
-                  Weekly Member Drops
+                  On Sale Now
                 </button>
               </li>
               <li>
                 <button
                   type="button"
-                  onClick={() =>
-                    onAction({ type: "section", sectionId: "journal" })
-                  }
-                  className="hover:text-amber-300 transition cursor-pointer"
+                  onClick={() => onAction({ type: "collection", slug: "new" })}
+                  className="hover:text-rose-400 transition cursor-pointer"
                 >
-                  The Care Journal
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() =>
-                    onAction({ type: "section", sectionId: "grants" })
-                  }
-                  className="hover:text-amber-300 transition cursor-pointer"
-                >
-                  Rescue Grant Fund
+                  New Arrivals
                 </button>
               </li>
               <li>
                 <button
                   type="button"
                   onClick={() => onAction({ type: "modal", modal: "tracker" })}
-                  className="hover:text-amber-300 transition cursor-pointer"
+                  className="hover:text-rose-400 transition cursor-pointer"
                 >
-                  Check Parcel Status
+                  Track Your Order
                 </button>
               </li>
               <li>
                 <button
                   type="button"
                   onClick={() => onAction({ type: "modal", modal: "wishlist" })}
-                  className="hover:text-amber-300 transition cursor-pointer"
+                  className="hover:text-rose-400 transition cursor-pointer"
                 >
-                  Saved List ({wishlistCount})
+                  Wishlist ({wishlistCount})
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onAction({ type: "modal", modal: "charity" })}
+                  className="hover:text-teal-300 transition cursor-pointer"
+                >
+                  Animal Welfare Mission
                 </button>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-display text-base font-semibold text-white mb-4">
-              Advisor Desk
+            <h4 className="font-display text-base font-bold text-white mb-4">
+              Customer Support
             </h4>
-            <ul className="space-y-2.5 text-sm text-emerald-100/75">
+            <ul className="space-y-2.5 text-sm text-slate-400">
               <li>
                 <button
                   type="button"
                   onClick={() => onAction({ type: "modal", modal: "advisor" })}
-                  className="hover:text-amber-300 transition cursor-pointer text-left"
+                  className="hover:text-teal-300 transition cursor-pointer text-left"
                 >
-                  7-Day Vet &amp; Nutrition Chat →
+                  24/7 Pet Care Support →
                 </button>
               </li>
               <li>
                 <a
                   href={`mailto:${SITE_BRAND.supportEmail}`}
-                  className="hover:text-amber-300 transition"
+                  className="hover:text-rose-400 transition"
                 >
                   {SITE_BRAND.supportEmail}
                 </a>
@@ -141,24 +140,26 @@ export default function Footer({
                 <button
                   type="button"
                   onClick={() => onAction({ type: "modal", modal: "login" })}
-                  className="hover:text-amber-300 transition cursor-pointer text-left"
+                  className="hover:text-rose-400 transition cursor-pointer text-left"
                 >
-                  Activate Haven Pass ({SITE_BRAND.promoCode})
+                  My Account ({SITE_BRAND.promoCode})
                 </button>
               </li>
-              <li>Compostable Kraft Shipping</li>
+              <li>100% Authentic &amp; Fast Delivery</li>
             </ul>
           </div>
         </div>
 
-        <div className="pt-6 flex flex-wrap items-center justify-between gap-4 text-xs text-emerald-100/55">
-          <p>© 2026 PawHaven Pet Wellness Studio. All rights reserved.</p>
+        <div className="pt-6 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
+          <p>
+            © 2026 EverythingPet. Your Pet&apos;s World, All in One Place.
+          </p>
           <div className="flex flex-wrap gap-2">
-            {["Visa", "Mastercard", "Apple Pay", "Shop Pay", "Plastic-Free"].map(
+            {["Visa", "Mastercard", "Apple Pay", "PayPal", "Animal Welfare"].map(
               (badge) => (
                 <span
                   key={badge}
-                  className="px-2.5 py-1 rounded-md bg-white/8 text-emerald-100/80 font-semibold"
+                  className="px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 font-semibold"
                 >
                   {badge}
                 </span>

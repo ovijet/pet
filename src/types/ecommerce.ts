@@ -1,28 +1,23 @@
-export type NeedCategoryId =
-  | "nutrition"
-  | "enrichment"
-  | "habitats"
-  | "wellness"
-  | "bundles";
-
-export type CategoryFilter = "all" | NeedCategoryId;
-
-export type PetTypeId =
+export type SpeciesId =
   | "dogs"
   | "cats"
-  | "small-pets"
-  | "birds"
   | "reptiles"
-  | "fish";
+  | "birds"
+  | "fish"
+  | "small-pets";
 
-export type CollectionFilter = "all" | "trending" | "fresh" | "drops";
+export type CategoryFilter = "all" | SpeciesId;
+export type CollectionFilter = "all" | "popular" | "new" | "sale";
 export type SortOption = "featured" | "price-asc" | "price-desc" | "rating";
 
 export type DynamicActionType =
   | { type: "category"; category: CategoryFilter }
-  | { type: "pet"; petType: PetTypeId }
+  | { type: "collection"; slug: string }
   | { type: "section"; sectionId: string }
-  | { type: "modal"; modal: "tracker" | "login" | "cart" | "wishlist" | "advisor" };
+  | {
+      type: "modal";
+      modal: "tracker" | "login" | "cart" | "wishlist" | "advisor" | "charity";
+    };
 
 export interface NavItem {
   id: CategoryFilter;
@@ -32,7 +27,7 @@ export interface NavItem {
 export interface UtilityLinkItem {
   id: string;
   label: string;
-  icon: "heart" | "book" | "truck" | "map";
+  icon: "heart" | "book" | "truck" | "help";
   action: DynamicActionType;
   highlight?: boolean;
   hideOnMobile?: boolean;
@@ -62,41 +57,39 @@ export interface PromoBannerItem {
   action: DynamicActionType;
   image: string;
   imageAlt: string;
-  theme: "warm" | "forest";
+  theme: "coral" | "teal";
 }
 
 export interface TrustPillarItem {
   id: string;
-  icon: "leaf" | "shield" | "heart" | "chat";
+  icon: "truck" | "shield" | "heart" | "headset";
   title: string;
   desc: string;
   action: DynamicActionType;
 }
 
-export interface LifestyleCardItem {
-  id: PetTypeId;
+export interface SpeciesCategory {
+  id: SpeciesId;
   name: string;
-  needCategory: NeedCategoryId;
   count: string;
   tagline: string;
   image: string;
+  accentRing: string;
 }
 
 export interface Product {
   id: string;
   name: string;
-  category: NeedCategoryId;
-  categoryLabel: string;
-  petType: PetTypeId;
-  petLabel: string;
+  species: SpeciesId;
+  speciesLabel: string;
   price: number;
   oldPrice: number | null;
   rating: number;
   reviews: number;
-  badge: "drop" | "fresh" | "vet";
+  badge: "sale" | "new" | "popular";
   badgeText: string;
-  collections: ("trending" | "fresh" | "drops")[];
-  grantMeals: number;
+  collections: ("popular" | "new" | "sale")[];
+  mealsFunded: number;
   variants: string[];
   image: string;
   description: string;
@@ -132,7 +125,7 @@ export interface JournalArticle {
   title: string;
   excerpt: string;
   image: string;
-  relatedCategory: NeedCategoryId;
+  relatedSlug: string;
   relatedCtaLabel: string;
   keyTakeaways: string[];
   body: string[];
@@ -154,7 +147,7 @@ export interface OrderRecord {
   id: string;
   status: string;
   eta: string;
-  grantNote: string;
+  impactNote: string;
   steps: OrderStep[];
 }
 
