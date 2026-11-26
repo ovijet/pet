@@ -195,7 +195,7 @@ export default function Navbar({
           <button
             type="button"
             onClick={() => onAction({ type: "modal", modal: "login" })}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-indigo-50 hover:text-indigo-700 transition cursor-pointer"
+            className="hidden md:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-indigo-50 hover:text-indigo-700 transition cursor-pointer"
           >
             <User className="w-4 h-4" />
             <span className="text-sm font-semibold hidden lg:inline">
@@ -206,7 +206,7 @@ export default function Navbar({
           <button
             type="button"
             onClick={() => onAction({ type: "modal", modal: "wishlist" })}
-            className="w-10 h-10 rounded-xl hover:bg-rose-50 hover:text-rose-500 relative flex items-center justify-center transition cursor-pointer"
+            className="hidden md:flex w-10 h-10 rounded-xl hover:bg-rose-50 hover:text-rose-500 relative items-center justify-center transition cursor-pointer"
             aria-label="Wishlist"
           >
             <Heart className="w-5 h-5" />
@@ -220,11 +220,11 @@ export default function Navbar({
           <button
             type="button"
             onClick={() => onAction({ type: "modal", modal: "cart" })}
-            className="inline-flex items-center gap-1.5 sm:gap-2 bg-indigo-950 hover:bg-rose-500 text-white px-3.5 py-2 rounded-xl relative transition shadow-sm cursor-pointer"
+            className="hidden md:inline-flex items-center gap-2 bg-indigo-950 hover:bg-rose-500 text-white px-3.5 py-2 rounded-xl relative transition shadow-sm cursor-pointer"
             aria-label="Shopping Cart"
           >
             <ShoppingBag className="w-4 h-4" />
-            <span className="text-xs font-bold hidden sm:inline">Cart</span>
+            <span className="text-xs font-bold">Cart</span>
             <span className="bg-teal-400 text-slate-950 text-[11px] font-extrabold min-w-[20px] h-5 px-1 rounded-full flex items-center justify-center">
               {cartCount}
             </span>

@@ -39,7 +39,7 @@ export default function TopUtilityBar({
           )}
           <span className="hidden lg:inline text-slate-600">•</span>
           <span className="hidden lg:inline text-slate-300">
-            {SITE_BRAND.announcement}{" "}
+           {SITE_BRAND.announcement} 
             <strong className="text-rose-400">{SITE_BRAND.promoCode}</strong>
           </span>
         </div>

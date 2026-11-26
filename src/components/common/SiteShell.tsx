@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowUp, HeartHandshake, MapPin, X } from "lucide-react";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import MobileBottomNav from "@/components/common/MobileBottomNav";
 import CartWishlistDrawers from "@/components/store/CartWishlistDrawers";
 import StoreModals from "@/components/store/StoreModals";
 import { useStore } from "@/context/StoreContext";
@@ -38,7 +39,7 @@ export default function SiteShell({
   const charityProduct = PRODUCTS.find((p) => p.id === "ep-dog-04");
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F6F8FC] text-[#0F172A]">
+    <div className="min-h-screen flex flex-col bg-[#F6F8FC] text-[#0F172A] pb-16 md:pb-0">
       <Header
         activeCategory={store.activeCategory}
         setActiveCategory={(cat) => {
@@ -60,6 +61,8 @@ export default function SiteShell({
         wishlistCount={store.wishlist.length}
         onAction={store.handleAction}
       />
+
+      <MobileBottomNav />
 
       {anyOverlayOpen && (
         <div
@@ -212,7 +215,7 @@ export default function SiteShell({
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Scroll back to top"
-          className="fixed bottom-5 right-4 sm:bottom-7 sm:right-7 z-30 w-11 h-11 rounded-full bg-indigo-950 hover:bg-rose-500 text-white shadow-lg flex items-center justify-center transition-all hover:-translate-y-0.5 cursor-pointer"
+          className="fixed bottom-20 right-4 md:bottom-7 md:right-7 z-30 w-11 h-11 rounded-full bg-indigo-950 hover:bg-rose-500 text-white shadow-lg flex items-center justify-center transition-all hover:-translate-y-0.5 cursor-pointer"
         >
           <ArrowUp className="w-5 h-5" />
         </button>
@@ -222,7 +225,7 @@ export default function SiteShell({
         <div
           role="status"
           aria-live="polite"
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] pointer-events-none px-4 w-full max-w-md flex justify-center"
+          className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-[70] pointer-events-none px-4 w-full max-w-md flex justify-center"
         >
           <div className="bg-slate-900 text-white px-5 py-3 rounded-full text-xs sm:text-sm font-semibold shadow-xl flex items-center gap-2.5 border border-indigo-500/30">
             <span className="w-2 h-2 rounded-full bg-rose-400 shrink-0" />
