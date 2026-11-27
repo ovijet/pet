@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Flame, Sparkles, HeartHandshake } from "lucide-react";
 import type { CategoryNavProps } from "@/types/ecommerce";
 import { CATEGORY_NAV_ITEMS, QUICK_NAV_LINKS } from "@/data/catalog";
+import { LiaPlaneArrivalSolid } from "react-icons/lia";
 
 export default function CategoryNav({
   activeCategory,
@@ -56,7 +57,7 @@ export default function CategoryNav({
               >
                 {link.icon === "flame" && <Flame className="w-3.5 h-3.5" />}
                 {link.icon === "sparkles" && (
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <LiaPlaneArrivalSolid className="w-3.5 h-3.5" />
                 )}
                 <span>{link.label}</span>
               </Link>
